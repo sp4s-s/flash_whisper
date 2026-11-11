@@ -1,0 +1,8 @@
+CalledProcessError: Command '['/usr/local/cuda/bin/ncu', '--kernel-name', 'regex:argmax_finalize_kernel', '--launch-count', '1', '--section', 'SpeedOfLight', '--section', 'MemoryWorkloadAnalysis', '--section', 'LaunchStats', '--section', 'Occupancy', '-f', '-o', '/cache/runs/168c41a94b064e4eb27a94440621cae4/ncu/argmax_finalize_kernel', 'python', '-m', 'custom.selftest', '--out', '/cache/runs/168c41a94b064e4eb27a94440621cae4/ncu/selftest']' returned non-zero exit status 9.
+==PROF== Connected to process 352 (/usr/local/bin/python3)
+==PROF== Profiling "argmax_finalize_kernel": 0%.
+==ERROR== An error was reported by the driver:
+==ERROR== Failed to lock GPU clock frequencies! Try locking the clocks externally (e.g. using 'nvidia-smi --lock-gpu-clocks=tdp,tdp') or profile without fixed frequencies (see '--clock-control').
+==ERROR== Failed to profile "argmax_finalize_kernel" in process 352
+==PROF== Trying to shutdown target application
+==ERROR== The application returned an error code (9).

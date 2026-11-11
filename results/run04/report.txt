@@ -1,0 +1,334 @@
+
+HEADER
+run_id: ffe3c5c7f573444bbed1c596b1287ab2
+UTC: 2026-11-11T13:25:11.061734+00:00
+code_sha256: 5d02d888fe9cbf4bc1a1b674db535ba2861e25660071629c5012ca465fcad788
+status: incomplete
+remote_wall_seconds: 249.199375856
+estimated cost USD: 0.2811
+GPU: NVIDIA H100 80GB HBM3
+
+ENVIRONMENT
+vllm: python=3.11.5, torch=2.8.0+cu128, cuda=12.8, vllm=0.10.2, transformers=4.55.4
+Wed Nov 11 13:21:07 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 80GB HBM3          On  |   00000000:05:00.0 Off |                    0 |
+| N/A   31C    P0             72W /  700W |       4MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+custom: python=3.11.5, torch=2.8.0+cu128, cuda=12.8, vllm=0.10.2, transformers=4.55.4
+Wed Nov 11 13:23:24 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 80GB HBM3          On  |   00000000:05:00.0 Off |                    0 |
+| N/A   32C    P0             72W /  700W |       4MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+
+ERRORS
+results: No custom CUDA kernel was run; optimization stage is incomplete.
+
+BENCHMARK TABLE
+# Whisper H100 benchmark
+
+Latency starts with an in-memory waveform and ends with the transcript.
+
+| Seconds | Backend | E2E median / p90 (ms) | TTFT median / p90 (ms) | TTLT median / p90 (ms) | Audio s/s | Reps |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| 5 | vllm | 253.5 / 292.2 | 46.0 / 48.9 | 253.5 / 292.2 | 19.72 | 20 |
+| 5 | custom reference | 52.5 / 59.1 | 18.5 / 20.3 | 52.4 / 59.0 | 95.17 | 20 |
+| 15 | vllm | 552.2 / 794.7 | 51.5 / 55.5 | 552.2 / 794.7 | 27.16 | 20 |
+| 15 | custom reference | 97.8 / 124.0 | 19.0 / 19.9 | 97.6 / 123.9 | 153.41 | 20 |
+| 30 | vllm | 1090.5 / 1231.4 | 47.2 / 52.5 | 1090.5 / 1231.3 | 27.51 | 20 |
+| 30 | custom reference | 192.7 / 220.1 | 19.6 / 20.7 | 192.6 / 219.9 | 155.64 | 20 |
+
+## Acceptance
+
+- 30-second speedup: 5.658x; unverified (target > 1.5x).
+- TTFT: unverified.
+- WER difference: 0.000 percentage points; unverified.
+
+## Status
+
+- incomplete
+- Input hashes match: True; token IDs match: True.
+- No custom CUDA kernel was run; optimization stage is incomplete.
+
+Timings are not comparable unless decoding and token correctness checks pass.
+
+PER-STAGE BREAKDOWN
+custom: mel_s=0.0055913599999968255, encoder_s=0.010469431000004192, decode_s=0.17627529150000498, detok_s=0.0001714425000045594, n_tokens=88.5
+custom decode ms/token median: 1.9283452722759016
+vllm: e2e_s=1.090522815, ttft_s=0.047216977000005045, ttlt_s=1.090508890499997
+vllm decode ms/token median: 11.619196000501223
+
+CORRECTNESS
+5s pairs=3 input hash match=True token-id match=True
+15s pairs=3 input hash match=True token-id match=True
+30s pairs=3 input hash match=True token-id match=True
+
+WER
+clips: 100
+vllm aggregate: 0.013123359580052493
+vllm 1995-1826-0023: 0.3157894736842105
+vllm 7176-92135-0045: 0.2857142857142857
+vllm 1089-134691-0014: 0.16666666666666666
+vllm 237-134500-0009: 0.1111111111111111
+vllm 61-70970-0003: 0.09090909090909091
+custom aggregate: 0.013123359580052493
+custom 1995-1826-0023: 0.3157894736842105
+custom 7176-92135-0045: 0.2857142857142857
+custom 1089-134691-0014: 0.16666666666666666
+custom 237-134500-0009: 0.1111111111111111
+custom 61-70970-0003: 0.09090909090909091
+difference custom - vllm: 0.000 percentage points
+
+GPU CLOCKS
+SM clock MHz min/median/max: 345.0 / 1980.0 / 1980.0
+power W min/median/max: 72.3 / 130.18 / 228.19
+temperature C min/median/max: 31.0 / 33.0 / 39.0
+
+NSYS
+vllm cuda_gpu_kern_sum:
+nvjet_hsh_64x8_64x16_4x1_v_bz_bias_TNT total_ms=18.640 instances=3220 avg_us=5.789
+void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<signed char total_ms=12.382 instances=32 avg_us=386.944
+void at::native::<unnamed>::vectorized_layer_norm_kernel<c10::Half, float>(int, T2, const  total_ms=10.097 instances=2301 avg_us=4.388
+void gemv2T_kernel_val<int, int, __half, __half, __half, float, (int)128, (int)16, (int)4, total_ms=8.063 instances=156 avg_us=51.686
+void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::Col total_ms=5.708 instances=616 avg_us=9.266
+nvjet_hsh_64x8_64x16_4x1_v_bz_splitK_bias_TNT total_ms=4.694 instances=644 avg_us=7.289
+void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::Col total_ms=4.036 instances=96 avg_us=42.041
+void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::Col total_ms=3.993 instances=608 avg_us=6.567
+nvjet_hsh_128x120_64x6_2x1_v_bz_bias_TNT total_ms=3.775 instances=192 avg_us=19.664
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::CUDAFunctor_add<c10::Ha total_ms=3.678 instances=2298 avg_us=1.601
+nvjet_hsh_256x120_64x4_2x1_v_bz_coopA_bias_TNT total_ms=3.100 instances=104 avg_us=29.809
+nvjet_hsh_176x128_64x5_1x2_h_bz_coopA_bias_TNN total_ms=2.395 instances=96 avg_us=24.949
+void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::A total_ms=2.239 instances=158 avg_us=14.171
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::GeluCUDAKernelImpl(at:: total_ms=1.997 instances=750 avg_us=2.663
+void cutlass::device_kernel<flash::FlashAttnFwdCombine<cute::tuple<cute::C<(int)16>, cute: total_ms=1.969 instances=616 avg_us=3.196
+void vllm::reshape_and_cache_flash_kernel<unsigned short, unsigned short, (vllm::Fp8KVCach total_ms=1.539 instances=624 avg_us=2.467
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::FillFunctor<c10::Half>, total_ms=1.481 instances=1453 avg_us=1.019
+void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, float, __half, float, __half, (b total_ms=1.314 instances=644 avg_us=2.040
+void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<bool, at::native::fu total_ms=1.260 instances=192 avg_us=6.561
+void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_ker total_ms=1.201 instances=317 avg_us=3.787
+void at::native::vectorized_elementwise_kernel<(int)4, at::native::FillFunctor<int>, std:: total_ms=0.779 instances=773 avg_us=1.008
+flash::prepare_varlen_num_blocks_kernel(int, int, int, const int *, const int *, const int total_ms=0.694 instances=308 avg_us=2.254
+void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso total_ms=0.577 instances=156 avg_us=3.701
+void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso total_ms=0.503 instances=308 avg_us=1.634
+nvjet_hsh_128x160_64x5_2x1_v_bz_coopA_bias_TNT total_ms=0.435 instances=20 avg_us=21.774
+total GPU kernel time ms: 99.692; profiled wall time: unavailable
+vllm cuda_api_sum:
+cudaLaunchKernel total_ms=456.746 instances=None avg_us=35.140
+cudaMemcpyAsync total_ms=323.978 instances=None avg_us=139.106
+cudaMalloc total_ms=211.161 instances=None avg_us=1774.462
+cuLibraryLoadData total_ms=58.615 instances=None avg_us=2791.187
+cuLaunchKernelEx total_ms=26.433 instances=None avg_us=6.176
+cudaStreamCreateWithPriority total_ms=16.788 instances=None avg_us=131.158
+cudaLaunchKernelExC_v11060 total_ms=11.227 instances=None avg_us=18.050
+cudaStreamSynchronize total_ms=11.196 instances=None avg_us=12.039
+cudaGetDeviceProperties_v2_v12000 total_ms=8.927 instances=None avg_us=2231.843
+cudaFree total_ms=4.658 instances=None avg_us=465.792
+custom cuda_gpu_kern_sum:
+nvjet_hsh_64x8_64x16_4x1_v_bz_bias_TNT total_ms=20.077 instances=3696 avg_us=5.432
+void at::native::<unnamed>::vectorized_layer_norm_kernel<c10::Half, float>(int, T2, const  total_ms=9.288 instances=2132 avg_us=4.356
+void gemv2T_kernel_val<int, int, __half, __half, __half, float, (int)128, (int)16, (int)4, total_ms=7.880 instances=152 avg_us=51.840
+void pytorch_flash::flash_fwd_kernel<Flash_fwd_kernel_traits<(int)64, (int)128, (int)128,  total_ms=7.832 instances=672 avg_us=11.655
+void pytorch_flash::flash_fwd_splitkv_kernel<Flash_fwd_kernel_traits<(int)64, (int)64, (in total_ms=4.926 instances=616 avg_us=7.997
+nvjet_hsh_64x8_64x16_4x1_v_bz_splitK_bias_TNT total_ms=4.649 instances=616 avg_us=7.547
+nvjet_hsh_128x120_64x6_2x1_v_bz_bias_TNT total_ms=3.887 instances=264 avg_us=14.722
+void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_noc total_ms=3.741 instances=450 avg_us=8.314
+nvjet_hsh_64x8_64x16_4x1_v_bz_TNT total_ms=2.838 instances=616 avg_us=4.606
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::CUDAFunctor_add<c10::Ha total_ms=2.756 instances=2002 avg_us=1.377
+void at::native::<unnamed>::CatArrayBatchedCopy_alignedK_contig<at::native::<unnamed>::Opa total_ms=2.596 instances=1216 avg_us=2.135
+void pytorch_flash::flash_fwd_splitkv_combine_kernel<Flash_fwd_kernel_traits<(int)64, (int total_ms=2.473 instances=616 avg_us=4.015
+void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_noc total_ms=2.397 instances=134 avg_us=17.890
+void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::A total_ms=2.114 instances=154 avg_us=13.729
+nvjet_hsh_256x120_64x4_2x1_v_bz_coopA_bias_TNT total_ms=1.978 instances=64 avg_us=30.905
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::AUnaryFunctor<c10::Half total_ms=1.719 instances=1296 avg_us=1.326
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::GeluCUDAKernelImpl(at:: total_ms=1.543 instances=684 avg_us=2.255
+void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, float, __half, float, __half, (b total_ms=1.317 instances=616 avg_us=2.138
+nvjet_hsh_128x120_64x6_2x1_v_bz_TNT total_ms=0.713 instances=72 avg_us=9.908
+void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_ker total_ms=0.642 instances=152 avg_us=4.220
+void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso total_ms=0.575 instances=154 avg_us=3.735
+void at::native::<unnamed>::indexSelectSmallIndex<c10::Half, long, unsigned int, (int)2, ( total_ms=0.318 instances=154 avg_us=2.067
+void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_ker total_ms=0.296 instances=156 avg_us=1.896
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::<unnamed>::launch_clamp total_ms=0.194 instances=64 avg_us=3.038
+void cudnn::engines_precompiled::nchwToNhwcKernel<__half, __half, float, (bool)0, (bool)1, total_ms=0.191 instances=8 avg_us=23.892
+total GPU kernel time ms: 87.419; profiled wall time: unavailable
+custom cuda_api_sum:
+cudaMemcpyAsync total_ms=359.482 instances=None avg_us=263.743
+cudaLaunchKernel total_ms=200.148 instances=None avg_us=17.254
+cudaMalloc total_ms=64.083 instances=None avg_us=598.911
+cuLibraryLoadData total_ms=42.619 instances=None avg_us=2130.951
+cuLaunchKernelEx total_ms=24.979 instances=None avg_us=4.688
+cudaStreamSynchronize total_ms=12.253 instances=None avg_us=10.135
+cudaGetDeviceProperties_v2_v12000 total_ms=6.050 instances=None avg_us=2016.700
+cudaFree total_ms=1.790 instances=None avg_us=894.894
+cuLibraryUnload total_ms=1.623 instances=None avg_us=324.546
+cudaStreamCreateWithFlags total_ms=1.206 instances=None avg_us=75.355
+
+LOG TAILS
+prepare.log matches:
+prepare.log tail:
+prepared 100 clips
+vllm.log matches:
+WARNING 11-11 13:21:21 [scheduler.py:269] max_num_batched_tokens (2048) exceeds max_num_seqs * max_model_len (448). This may lead to unexpected behavior.
+WARNING 11-11 13:21:21 [scheduler.py:269] max_num_batched_tokens (2048) exceeds max_num_seqs * max_model_len (448). This may lead to unexpected behavior.
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:31 [core.py:76] Initializing a V1 LLM engine (v0.10.2) with config: model='/cache/huggingface/models--openai--whisper-large-v3-turbo/snapshots/41f01f3fe87f28c78e2fbf8b568835947dd65ed9', speculative_config=None, tokenizer='/cache/huggingface/models--openai--wh
+[W1111 13:21:34.352927551 ProcessGroupNCCL.cpp:981] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+(EngineCore_DP0 pid=53) WARNING 11-11 13:21:35 [topk_topp_sampler.py:69] FlashInfer is not available. Falling back to the PyTorch-native implementation of top-p & top-k sampling. For the best performance, please install FlashInfer.
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:36 [cuda.py:362] Using Flash Attention backend on V1 engine.
+(EngineCore_DP0 pid=53) WARNING 11-11 13:21:36 [__init__.py:3781] `torch.compile` is turned on, but the model /cache/huggingface/models--openai--whisper-large-v3-turbo/snapshots/41f01f3fe87f28c78e2fbf8b568835947dd65ed9 does not support it. Please open an issue on GitHub if you want it to be supporte
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:38 [default_loader.py:268] Loading weights took 1.60 seconds
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:38 [gpu_model_runner.py:2392] Model loading took 1.5076 GiB and 1.873453 seconds
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:41 [gpu_worker.py:298] Available KV cache memory: 37.90 GiB
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:41 [kv_cache_utils.py:1028] GPU KV cache size: 993,616 tokens
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/3 [00:00<?, ?it/s]
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 3/3 [00:00<00:00, 125.17it/s]
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:42 [gpu_worker.py:391] Free memory on device (78.56/79.17 GiB) on startup. Desired GPU memory utilization is (0.5, 39.59 GiB). Actual usage is 1.51 GiB for weight, 0.1 GiB for peak activation, 0.07 GiB for non-torch memory, and 0.1 GiB for CUDAGraph memory. R
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:42 [core.py:218] init engine (profile, create kv cache, warmup model) took 3.40 seconds
+[rank0]:[W1111 13:23:09.889468641 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+vllm.log tail:
+INFO 11-11 13:21:24 [__init__.py:3479] Encoder-decoder models do not support chunked prefill nor prefix caching; disabling both.
+INFO 11-11 13:21:29 [__init__.py:216] Automatically detected platform cuda.
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:31 [core.py:654] Waiting for init message from front-end.
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:31 [core.py:76] Initializing a V1 LLM engine (v0.10.2) with config: model='/cache/huggingface/models--openai--whisper-large-v3-turbo/snapshots/41f01f3fe87f28c78e2fbf8b568835947dd65ed9', speculative_config=None, tokenizer='/cache/huggingface/models--openai--wh
+[W1111 13:21:34.352927551 ProcessGroupNCCL.cpp:981] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+[Gloo] Rank 0 is connected to 0 peer ranks. Expected number of connected peer ranks is : 0
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:34 [parallel_state.py:1165] rank 0 in world size 1 is assigned as DP rank 0, PP rank 0, TP rank 0, EP rank 0
+(EngineCore_DP0 pid=53) WARNING 11-11 13:21:35 [topk_topp_sampler.py:69] FlashInfer is not available. Falling back to the PyTorch-native implementation of top-p & top-k sampling. For the best performance, please install FlashInfer.
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:35 [gpu_model_runner.py:2338] Starting to load model /cache/huggingface/models--openai--whisper-large-v3-turbo/snapshots/41f01f3fe87f28c78e2fbf8b568835947dd65ed9...
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:36 [gpu_model_runner.py:2370] Loading model from scratch...
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:36 [cuda.py:362] Using Flash Attention backend on V1 engine.
+(EngineCore_DP0 pid=53) WARNING 11-11 13:21:36 [__init__.py:3781] `torch.compile` is turned on, but the model /cache/huggingface/models--openai--whisper-large-v3-turbo/snapshots/41f01f3fe87f28c78e2fbf8b568835947dd65ed9 does not support it. Please open an issue on GitHub if you want it to be supporte
+(EngineCore_DP0 pid=53) 
+Loading safetensors checkpoint shards:   0% Completed | 0/1 [00:00<?, ?it/s]
+(EngineCore_DP0 pid=53) 
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.53s/it]
+(EngineCore_DP0 pid=53) 
+Loading safetensors checkpoint shards: 100% Completed | 1/1 [00:01<00:00,  1.53s/it]
+(EngineCore_DP0 pid=53) 
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:38 [default_loader.py:268] Loading weights took 1.60 seconds
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:38 [gpu_model_runner.py:2392] Model loading took 1.5076 GiB and 1.873453 seconds
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:39 [gpu_model_runner.py:3000] Encoder cache will be initialized with a budget of 1500 tokens, and profiled with 1 audio items of the maximum feature size.
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:41 [gpu_worker.py:298] Available KV cache memory: 37.90 GiB
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:41 [kv_cache_utils.py:1028] GPU KV cache size: 993,616 tokens
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:41 [kv_cache_utils.py:1032] Maximum concurrency for 448 tokens per request: 1018.05x
+(EngineCore_DP0 pid=53) 
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/3 [00:00<?, ?it/s]
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 3/3 [00:00<00:00, 125.17it/s]
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:42 [gpu_model_runner.py:3118] Graph capturing finished in 1 secs, took 0.10 GiB
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:42 [gpu_worker.py:391] Free memory on device (78.56/79.17 GiB) on startup. Desired GPU memory utilization is (0.5, 39.59 GiB). Actual usage is 1.51 GiB for weight, 0.1 GiB for peak activation, 0.07 GiB for non-torch memory, and 0.1 GiB for CUDAGraph memory. R
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:42 [core.py:218] init engine (profile, create kv cache, warmup model) took 3.40 seconds
+(EngineCore_DP0 pid=53) INFO 11-11 13:21:42 [__init__.py:3479] Encoder-decoder models do not support chunked prefill nor prefix caching; disabling both.
+INFO 11-11 13:21:42 [loggers.py:142] Engine 000: vllm cache_config_info with initialization after num_gpu_blocks is: 124202
+INFO 11-11 13:21:42 [async_llm.py:180] Torch profiler disabled. AsyncLLM CPU traces will not be collected.
+[rank0]:[W1111 13:23:09.889468641 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+custom.log matches:
+custom.log tail:
+
+Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]
+Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 1954.06it/s]
+custom.log matches:
+custom.log tail:
+
+Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]
+Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 1039.74it/s]
+Collecting data...
+Generating '/tmp/nsys-report-c243.qdstrm'
+
+[1/1] [0%                          ] custom.nsys-rep
+[1/1] [0%                          ] custom.nsys-rep
+[1/1] [8%                          ] custom.nsys-rep
+[1/1] [=16%                        ] custom.nsys-rep
+[1/1] [====25%                     ] custom.nsys-rep
+[1/1] [=======39%                  ] custom.nsys-rep
+[1/1] [===========53%              ] custom.nsys-rep
+[1/1] [===============65%          ] custom.nsys-rep
+[1/1] [========================100%] custom.nsys-rep
+[1/1] [========================100%] custom.nsys-rep
+Generated:
+    /cache/runs/ffe3c5c7f573444bbed1c596b1287ab2/nsys/custom.nsys-rep
+vllm.log matches:
+WARNING 11-11 13:24:09 [scheduler.py:269] max_num_batched_tokens (2048) exceeds max_num_seqs * max_model_len (448). This may lead to unexpected behavior.
+WARNING 11-11 13:24:09 [scheduler.py:269] max_num_batched_tokens (2048) exceeds max_num_seqs * max_model_len (448). This may lead to unexpected behavior.
+(EngineCore_DP0 pid=221) INFO 11-11 13:24:18 [core.py:76] Initializing a V1 LLM engine (v0.10.2) with config: model='/cache/huggingface/models--openai--whisper-large-v3-turbo/snapshots/41f01f3fe87f28c78e2fbf8b568835947dd65ed9', speculative_config=None, tokenizer='/cache/huggingface/models--openai--w
+[W1111 13:24:21.158346616 ProcessGroupNCCL.cpp:981] Warning: TORCH_NCCL_AVOID_RECORD_STREAMS is the default now, this environment variable is thus deprecated. (function operator())
+(EngineCore_DP0 pid=221) WARNING 11-11 13:24:22 [topk_topp_sampler.py:69] FlashInfer is not available. Falling back to the PyTorch-native implementation of top-p & top-k sampling. For the best performance, please install FlashInfer.
+(EngineCore_DP0 pid=221) INFO 11-11 13:24:22 [cuda.py:362] Using Flash Attention backend on V1 engine.
+(EngineCore_DP0 pid=221) WARNING 11-11 13:24:23 [__init__.py:3781] `torch.compile` is turned on, but the model /cache/huggingface/models--openai--whisper-large-v3-turbo/snapshots/41f01f3fe87f28c78e2fbf8b568835947dd65ed9 does not support it. Please open an issue on GitHub if you want it to be support
+(EngineCore_DP0 pid=221) INFO 11-11 13:24:23 [default_loader.py:268] Loading weights took 0.43 seconds
+(EngineCore_DP0 pid=221) INFO 11-11 13:24:24 [gpu_model_runner.py:2392] Model loading took 1.5076 GiB and 0.649527 seconds
+(EngineCore_DP0 pid=221) INFO 11-11 13:24:25 [gpu_worker.py:298] Available KV cache memory: 37.90 GiB
+(EngineCore_DP0 pid=221) INFO 11-11 13:24:26 [kv_cache_utils.py:1028] GPU KV cache size: 993,616 tokens
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE):   0%|          | 0/3 [00:00<?, ?it/s]
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 3/3 [00:00<00:00, 103.80it/s]
+(EngineCore_DP0 pid=221) INFO 11-11 13:24:26 [gpu_worker.py:391] Free memory on device (78.54/79.17 GiB) on startup. Desired GPU memory utilization is (0.5, 39.59 GiB). Actual usage is 1.51 GiB for weight, 0.1 GiB for peak activation, 0.07 GiB for non-torch memory, and 0.1 GiB for CUDAGraph memory. 
+(EngineCore_DP0 pid=221) INFO 11-11 13:24:26 [core.py:218] init engine (profile, create kv cache, warmup model) took 2.62 seconds
+[rank0]:[W1111 13:24:31.504747648 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+vllm.log tail:
+Capturing CUDA graphs (mixed prefill-decode, PIECEWISE): 100%|██████████| 3/3 [00:00<00:00, 103.80it/s]
+(EngineCore_DP0 pid=221) INFO 11-11 13:24:26 [gpu_model_runner.py:3118] Graph capturing finished in 1 secs, took 0.10 GiB
+(EngineCore_DP0 pid=221) INFO 11-11 13:24:26 [gpu_worker.py:391] Free memory on device (78.54/79.17 GiB) on startup. Desired GPU memory utilization is (0.5, 39.59 GiB). Actual usage is 1.51 GiB for weight, 0.1 GiB for peak activation, 0.07 GiB for non-torch memory, and 0.1 GiB for CUDAGraph memory. 
+(EngineCore_DP0 pid=221) INFO 11-11 13:24:26 [core.py:218] init engine (profile, create kv cache, warmup model) took 2.62 seconds
+(EngineCore_DP0 pid=221) INFO 11-11 13:24:26 [__init__.py:3479] Encoder-decoder models do not support chunked prefill nor prefix caching; disabling both.
+INFO 11-11 13:24:27 [loggers.py:142] Engine 000: vllm cache_config_info with initialization after num_gpu_blocks is: 124202
+INFO 11-11 13:24:27 [async_llm.py:180] Torch profiler disabled. AsyncLLM CPU traces will not be collected.
+[rank0]:[W1111 13:24:31.504747648 ProcessGroupNCCL.cpp:1538] Warning: WARNING: destroy_process_group() was not called before program exit, which can leak resources. For more info, please see https://pytorch.org/docs/stable/distributed.html#shutdown (function operator())
+Collecting data...
+Generating '/tmp/nsys-report-5912.qdstrm'
+
+[1/1] [0%                          ] vllm.nsys-rep
+[1/1] [0%                          ] vllm.nsys-rep
+[1/1] [0%                          ] vllm.nsys-rep
+[1/1] [6%                          ] vllm.nsys-rep
+[1/1] [8%                          ] vllm.nsys-rep
+[1/1] [10%                         ] vllm.nsys-rep
+[1/1] [12%                         ] vllm.nsys-rep
+[1/1] [14%                         ] vllm.nsys-rep
+[1/1] [=17%                        ] vllm.nsys-rep
+[1/1] [==19%                       ] vllm.nsys-rep
+[1/1] [==21%                       ] vllm.nsys-rep
+[1/1] [===23%                      ] vllm.nsys-rep
+[1/1] [====25%                     ] vllm.nsys-rep
+[1/1] [====27%                     ] vllm.nsys-rep
+[1/1] [=====29%                    ] vllm.nsys-rep
+[1/1] [=====32%                    ] vllm.nsys-rep
+[1/1] [======34%                   ] vllm.nsys-rep
+[1/1] [=======36%                  ] vllm.nsys-rep
+[1/1] [=======38%                  ] vllm.nsys-rep
+[1/1] [========40%                 ] vllm.nsys-rep
+[1/1] [========42%                 ] vllm.nsys-rep
+[1/1] [=========45%                ] vllm.nsys-rep
+[1/1] [==========49%               ] vllm.nsys-rep
+[1/1] [===========52%              ] vllm.nsys-rep
+[1/1] [============54%             ] vllm.nsys-rep
+[1/1] [========================100%] vllm.nsys-rep
+[1/1] [========================100%] vllm.nsys-rep
+Generated:
+    /cache/runs/ffe3c5c7f573444bbed1c596b1287ab2/nsys/vllm.nsys-rep
+
+BUDGET
+estimated cost USD: 0.2811
+Check the Modal dashboard.

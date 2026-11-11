@@ -1,0 +1,7 @@
+vllm==0.33.0
+datasets
+torchcodec
+soundfile
+jiwer
+openai-whisper
+ninja

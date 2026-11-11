@@ -1,0 +1,10 @@
+Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 829.87it/s]
+Loading weights:   0%|          | 0/587 [00:00<?, ?it/s]Loading weights: 100%|██████████| 587/587 [00:00<00:00, 11408.97it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer WhisperTokenizer. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+Capture range started in the application.
+Capture range ended in the application.
+Generating '/tmp/nsys-report-c73a.qdstrm'
+[1/1] [0%                          ] pytorch.nsys-repProcessing events...
+[1/1] [0%                          ] pytorch.nsys-rep[1/1] [==========47%               ] pytorch.nsys-rep[1/1] [=======================94%  ] pytorch.nsys-rep[1/1] [=======================95%  ] pytorch.nsys-rep[1/1] [0%                          ] pytorch.nsys-rep[1/1] [=16%                        ] pytorch.nsys-rep[1/1] [=====32%                    ] pytorch.nsys-rep[1/1] [==========48%               ] pytorch.nsys-rep[1/1] [===============65%          ] pytorch.nsys-rep[1/1] [===================81%      ] pytorch.nsys-rep[1/1] [====================84%     ] pytorch.nsys-rep[1/1] [========================100%] pytorch.nsys-rep[1/1] [========================100%] pytorch.nsys-rep
+Generated:
+	/cache/runs/57fc6208ab90409e94716a447a568013/nsys/pytorch.nsys-rep

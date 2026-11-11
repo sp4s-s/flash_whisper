@@ -1,0 +1,699 @@
+
+HEADER
+run_id: 57fc6208ab90409e94716a447a568013
+UTC: 2026-11-11T15:56:06.429028+00:00
+code_sha256: e612cef731c175326d38c04a19c081e3f5d6db461f7c4e6ff0b92d847103444f
+status: completed; inspect correctness gates
+remote_wall_seconds: 356.66632853600004
+estimated cost USD: 0.4540
+GPU: NVIDIA H100 80GB HBM3
+
+ENVIRONMENT
+vllm: python=3.12.1, torch=2.14.0+cu130, cuda=13.0, vllm=0.33.0, transformers=5.20.2
+Wed Nov 11 15:50:22 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 80GB HBM3          On  |   00000000:84:00.0 Off |                    0 |
+| N/A   35C    P0             70W /  700W |       4MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+pytorch: python=3.12.1, torch=2.14.0+cu130, cuda=13.0, vllm=0.33.0, transformers=5.20.2
+Wed Nov 11 15:53:08 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 80GB HBM3          On  |   00000000:84:00.0 Off |                    0 |
+| N/A   36C    P0             70W /  700W |       4MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+cuda: python=3.12.1, torch=2.14.0+cu130, cuda=13.0, vllm=0.33.0, transformers=5.20.2
+Wed Nov 11 15:53:45 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA H100 80GB HBM3          On  |   00000000:84:00.0 Off |                    0 |
+| N/A   36C    P0             70W /  700W |       4MiB /  81559MiB |      0%      Default |
+|                                         |                        |             Disabled |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+
+ERRORS
+
+BENCHMARK TABLE
+# Whisper H100 benchmark
+
+Latency starts with an in-memory waveform and ends with the transcript.
+
+| Seconds | Backend | E2E median / p90 (ms) | TTFT median / p90 (ms) | TTLT median / p90 (ms) | Audio s/s | Reps |
+| ---: | --- | ---: | ---: | ---: | ---: | ---: |
+| 5 | vLLM | 73.5 / 79.7 | 34.6 / 35.2 | 73.5 / 79.7 | 68.02 | 20 |
+| 5 | PyTorch | 56.0 / 66.2 | 17.6 / 20.4 | 55.9 / 66.1 | 89.34 | 20 |
+| 5 | CUDA | 19.1 / 19.2 | 10.5 / 10.5 | 19.1 / 19.2 | 261.46 | 20 |
+| 15 | vLLM | 126.7 / 156.5 | 33.7 / 37.5 | 126.6 / 156.5 | 118.43 | 20 |
+| 15 | PyTorch | 110.4 / 142.8 | 18.9 / 20.1 | 110.3 / 142.7 | 135.89 | 20 |
+| 15 | CUDA | 28.3 / 31.4 | 10.6 / 10.7 | 28.2 / 31.3 | 530.58 | 20 |
+| 30 | vLLM | 222.8 / 254.1 | 33.3 / 36.2 | 222.8 / 254.1 | 134.65 | 20 |
+| 30 | PyTorch | 204.2 / 242.7 | 19.5 / 20.8 | 204.0 / 242.6 | 146.92 | 20 |
+| 30 | CUDA | 44.0 / 50.6 | 10.8 / 10.9 | 43.9 / 50.4 | 681.95 | 20 |
+
+## Speedup (median; >1 means faster)
+
+| Seconds | PyTorch E2E vs vLLM | PyTorch TTFT vs vLLM | CUDA E2E vs vLLM | CUDA TTFT vs vLLM | CUDA E2E vs PyTorch |
+| ---: | ---: | ---: | ---: | ---: | ---: |
+| 5 | 1.31x | 1.97x | 3.84x | 3.30x | 2.93x |
+| 15 | 1.15x | 1.78x | 4.48x | 3.17x | 3.90x |
+| 30 | 1.09x | 1.71x | 5.06x | 3.08x | 4.64x |
+
+## Cost per audio hour (30 s clips, GPU list price)
+
+| Backend | Audio s/s | USD per audio hour |
+| --- | ---: | ---: |
+| vLLM | 134.65 | 0.03 |
+| PyTorch | 146.92 | 0.03 |
+| CUDA | 681.95 | 0.01 |
+
+## Acceptance (against vLLM)
+
+- PyTorch 30-second speedup: 1.09x; fail (target > 1.5x).
+- PyTorch TTFT: 19.5 ms vs 33.3 ms; pass.
+- PyTorch WER difference: 0.000 percentage points; pass.
+- CUDA 30-second speedup: 5.06x; pass (target > 1.5x).
+- CUDA TTFT: 10.8 ms vs 33.3 ms; pass.
+- CUDA WER difference: 0.000 percentage points; pass.
+
+## Status
+
+- completed; inspect correctness gates
+- PyTorch vs vLLM: input hashes match: True; token IDs match: True.
+- CUDA vs vLLM: input hashes match: True; token IDs match: True.
+
+Timings are not comparable unless decoding and token correctness checks pass.
+
+PER-STAGE BREAKDOWN
+vllm: e2e_s=0.2227990070000061, ttft_s=0.03332884649999812, ttlt_s=0.22278558050000186
+vllm decode ms/token median: 2.1902706058169237
+pytorch: mel_s=0.0035168974999919556, encoder_s=0.011592711499986308, decode_s=0.187147748000001, detok_s=0.00014170149998449233, n_tokens=88.5
+pytorch stage share of median e2e: mel=1.7%, encoder=5.7%, decode=91.7%, detok=0.1%, other=0.9%
+pytorch decode ms/token median: 2.159405841521702
+cuda: mel_s=0.0007270684999838295, encoder_s=0.008626875499999187, decode_s=0.034455694499996525, detok_s=0.00015058149999447323, n_tokens=88.5
+cuda stage share of median e2e: mel=1.7%, encoder=19.6%, decode=78.3%, detok=0.3%, other=0.1%
+cuda decode ms/token median: 0.3951810473683724
+decode ms/token ratio vllm/pytorch: 1.01x
+decode ms/token ratio vllm/cuda: 5.54x
+
+CORRECTNESS
+pytorch 5s pairs=3 input hash match=True token-id match=True
+pytorch 15s pairs=3 input hash match=True token-id match=True
+pytorch 30s pairs=3 input hash match=True token-id match=True
+cuda 5s pairs=3 input hash match=True token-id match=True
+cuda 15s pairs=3 input hash match=True token-id match=True
+cuda 30s pairs=3 input hash match=True token-id match=True
+
+CUSTOM KERNELS
+selftest: {
+  "ok": true,
+  "checks": [
+    {
+      "name": "add_layernorm",
+      "max_err": 0.0018949508666992188,
+      "ok": true
+    },
+    {
+      "name": "decode_attention_self_1",
+      "max_err": 0.0,
+      "ok": true
+    },
+    {
+      "name": "kv_write_1",
+      "max_err": 0.0,
+      "ok": true
+    },
+    {
+      "name": "decode_attention_self_63",
+      "max_err": 0.0002334117889404297,
+      "ok": true
+    },
+    {
+      "name": "kv_write_63",
+      "max_err": 0.0,
+      "ok": true
+    },
+    {
+      "name": "decode_attention_self_64",
+      "max_err": 0.0002351999282836914,
+      "ok": true
+    },
+    {
+      "name": "kv_write_64",
+      "max_err": 0.0,
+      "ok": true
+    },
+    {
+      "name": "decode_attention_self_65",
+      "max_err": 0.00023293495178222656,
+      "ok": true
+    },
+    {
+      "name": "kv_write_65",
+      "max_err": 0.0,
+      "ok": true
+    },
+    {
+      "name": "decode_attention_self_200",
+      "max_err": 0.00011909008026123047,
+      "ok": true
+    },
+    {
+      "name": "kv_write_200",
+      "max_err": 0.0,
+      "ok": true
+    },
+    {
+      "name": "decode_attention_self_448",
+      "max_err": 0.00011807680130004883,
+      "ok": true
+    },
+    {
+      "name": "kv_write_448",
+      "max_err": 0.0,
+      "ok": true
+    },
+    {
+      "name": "decode_attention_cross",
+      "max_err": 5.307793617248535e-05,
+      "ok": true
+    },
+    {
+      "name": "lm_head_argmax",
+      "max_err": 0.0,
+      "ok": true
+    }
+  ],
+  "mel_max_abs_diff": 4.887580871582031e-06,
+  "encoder_graph_max_abs_diff": 0.0,
+  "encoder_graph": true
+}
+ptxas:
+[1/2] /usr/local/cuda/bin/nvcc -MD -MF whisper_kernels.cuda.o.d -DTORCH_EXTENSION_NAME=whisper_ext -DTORCH_API_INCLUDE_EXTENSION_H -isystem /usr/local/lib/python3.12/site-packages/torch/include -isystem /usr/local/lib/python3.12/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/local/include/python3.12 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_90a,code=sm_90a --compiler-options '-fPIC' -O3 -lineinfo -Xptxas=-v,-warn-spills --expt-relaxed-constexpr -std=c++20 -c /app/custom/kernels/whisper_kernels.cu -o whisper_kernels.cuda.o 
+ptxas info    : 28 bytes gmem
+ptxas info    : Compiling entry function '_ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd20add_layernorm_kernelEP6__halfPKS0_S3_S3_S1_f' for 'sm_90a'
+ptxas info    : Function properties for _ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd20add_layernorm_kernelEP6__halfPKS0_S3_S3_S1_f
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 29 registers, used 1 barriers, 32 bytes smem
+ptxas info    : Compile time = 12.880 ms
+ptxas info    : Compiling entry function '_ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd31decode_attention_combine_kernelEPKfS1_S1_P6__halfi' for 'sm_90a'
+ptxas info    : Function properties for _ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd31decode_attention_combine_kernelEPKfS1_S1_P6__halfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 32 registers, used 0 barriers
+ptxas info    : Compile time = 14.852 ms
+ptxas info    : Compiling entry function '_ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd29decode_attention_split_kernelEPK6__halfPS0_S3_S2_S2_PKlifPfS6_S6_' for 'sm_90a'
+ptxas info    : Function properties for _ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd29decode_attention_split_kernelEPK6__halfPS0_S3_S2_S2_PKlifPfS6_S6_
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 29 registers, used 1 barriers, 1296 bytes smem
+ptxas info    : Compile time = 17.374 ms
+ptxas info    : Compiling entry function '_ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd22argmax_finalize_kernelEPyPlS1_S1_i' for 'sm_90a'
+ptxas info    : Function properties for _ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd22argmax_finalize_kernelEPyPlS1_S1_i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 22 registers, used 0 barriers
+ptxas info    : Compile time = 2.034 ms
+ptxas info    : Compiling entry function '_ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd21lm_head_argmax_kernelEPK6__halfS2_PKbiPy' for 'sm_90a'
+ptxas info    : Function properties for _ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd21lm_head_argmax_kernelEPK6__halfS2_PKbiPy
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 64 registers, used 1 barriers, 64 bytes smem
+ptxas info    : Compile time = 12.832 ms
+lm_head_argmax_kernel:
+ID, Process ID, Process Name, Host Name, Kernel Name, Context, Stream, Block Size, Grid Size, Device, CC, Section Name, Metric Name, Metric Unit, Metric Value, Rule Name, Rule Type, Rule Description, Estimated Speedup Type, Estimated Speedup
+0, 455, python3, 127.0.0.1, <unnamed>::lm_head_argmax_kernel(const __half *, const __half *, const bool *, int, unsigned long long *), 1, 7, (256, 1, 1), (528, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, Memory Throughput, %, 83.87, 
+0, 455, python3, 127.0.0.1, <unnamed>::lm_head_argmax_kernel(const __half *, const __half *, const bool *, int, unsigned long long *), 1, 7, (256, 1, 1), (528, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, DRAM Throughput, %, 83.87, 
+0, 455, python3, 127.0.0.1, <unnamed>::lm_head_argmax_kernel(const __half *, const __half *, const bool *, int, unsigned long long *), 1, 7, (256, 1, 1), (528, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, Duration, us, 48.19, 
+0, 455, python3, 127.0.0.1, <unnamed>::lm_head_argmax_kernel(const __half *, const __half *, const bool *, int, unsigned long long *), 1, 7, (256, 1, 1), (528, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, Compute (SM) Throughput, %, 13.96, 
+0, 455, python3, 127.0.0.1, <unnamed>::lm_head_argmax_kernel(const __half *, const __half *, const bool *, int, unsigned long long *), 1, 7, (256, 1, 1), (528, 1, 1), 0, 9.0, Memory Workload Analysis, Memory Throughput, Tbyte/s, 2.81, 
+0, 455, python3, 127.0.0.1, <unnamed>::lm_head_argmax_kernel(const __half *, const __half *, const bool *, int, unsigned long long *), 1, 7, (256, 1, 1), (528, 1, 1), 0, 9.0, Launch Statistics, Block Size, , 256, 
+0, 455, python3, 127.0.0.1, <unnamed>::lm_head_argmax_kernel(const __half *, const __half *, const bool *, int, unsigned long long *), 1, 7, (256, 1, 1), (528, 1, 1), 0, 9.0, Launch Statistics, Grid Size, , 528, 
+0, 455, python3, 127.0.0.1, <unnamed>::lm_head_argmax_kernel(const __half *, const __half *, const bool *, int, unsigned long long *), 1, 7, (256, 1, 1), (528, 1, 1), 0, 9.0, Launch Statistics, Registers Per Thread, register/thread, 64, 
+0, 455, python3, 127.0.0.1, <unnamed>::lm_head_argmax_kernel(const __half *, const __half *, const bool *, int, unsigned long long *), 1, 7, (256, 1, 1), (528, 1, 1), 0, 9.0, Occupancy, Theoretical Occupancy, %, 50, 
+0, 455, python3, 127.0.0.1, <unnamed>::lm_head_argmax_kernel(const __half *, const __half *, const bool *, int, unsigned long long *), 1, 7, (256, 1, 1), (528, 1, 1), 0, 9.0, Occupancy, Achieved Occupancy, %, 48.08, 
+argmax_finalize_kernel:
+ID, Process ID, Process Name, Host Name, Kernel Name, Context, Stream, Block Size, Grid Size, Device, CC, Section Name, Metric Name, Metric Unit, Metric Value, Rule Name, Rule Type, Rule Description, Estimated Speedup Type, Estimated Speedup
+0, 509, python3, 127.0.0.1, <unnamed>::argmax_finalize_kernel(unsigned long long *, long *, long *, long *, int), 1, 7, (1, 1, 1), (1, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, Memory Throughput, %, 11.41, 
+0, 509, python3, 127.0.0.1, <unnamed>::argmax_finalize_kernel(unsigned long long *, long *, long *, long *, int), 1, 7, (1, 1, 1), (1, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, DRAM Throughput, %, 0.04, 
+0, 509, python3, 127.0.0.1, <unnamed>::argmax_finalize_kernel(unsigned long long *, long *, long *, long *, int), 1, 7, (1, 1, 1), (1, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, Duration, us, 2.82, 
+0, 509, python3, 127.0.0.1, <unnamed>::argmax_finalize_kernel(unsigned long long *, long *, long *, long *, int), 1, 7, (1, 1, 1), (1, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, Compute (SM) Throughput, %, 0.00, 
+0, 509, python3, 127.0.0.1, <unnamed>::argmax_finalize_kernel(unsigned long long *, long *, long *, long *, int), 1, 7, (1, 1, 1), (1, 1, 1), 0, 9.0, Memory Workload Analysis, Memory Throughput, Gbyte/s, 1.27, 
+0, 509, python3, 127.0.0.1, <unnamed>::argmax_finalize_kernel(unsigned long long *, long *, long *, long *, int), 1, 7, (1, 1, 1), (1, 1, 1), 0, 9.0, Launch Statistics, Block Size, , 1, 
+0, 509, python3, 127.0.0.1, <unnamed>::argmax_finalize_kernel(unsigned long long *, long *, long *, long *, int), 1, 7, (1, 1, 1), (1, 1, 1), 0, 9.0, Launch Statistics, Grid Size, , 1, 
+0, 509, python3, 127.0.0.1, <unnamed>::argmax_finalize_kernel(unsigned long long *, long *, long *, long *, int), 1, 7, (1, 1, 1), (1, 1, 1), 0, 9.0, Launch Statistics, Registers Per Thread, register/thread, 22, 
+0, 509, python3, 127.0.0.1, <unnamed>::argmax_finalize_kernel(unsigned long long *, long *, long *, long *, int), 1, 7, (1, 1, 1), (1, 1, 1), 0, 9.0, Occupancy, Theoretical Occupancy, %, 50, 
+0, 509, python3, 127.0.0.1, <unnamed>::argmax_finalize_kernel(unsigned long long *, long *, long *, long *, int), 1, 7, (1, 1, 1), (1, 1, 1), 0, 9.0, Occupancy, Achieved Occupancy, %, 1.53, 
+decode_attention_split_kernel:
+ID, Process ID, Process Name, Host Name, Kernel Name, Context, Stream, Block Size, Grid Size, Device, CC, Section Name, Metric Name, Metric Unit, Metric Value, Rule Name, Rule Type, Rule Description, Estimated Speedup Type, Estimated Speedup
+0, 563, python3, 127.0.0.1, <unnamed>::decode_attention_split_kernel(const __half *, __half *, __half *, const __half *, const __half *, const long *, int, float, float *, float *, float *), 1, 7, (128, 1, 1), (20, 7, 1), 0, 9.0, GPU Speed Of Light Throughput, Memory Throughput, %, 7.05, 
+0, 563, python3, 127.0.0.1, <unnamed>::decode_attention_split_kernel(const __half *, __half *, __half *, const __half *, const __half *, const long *, int, float, float *, float *, float *), 1, 7, (128, 1, 1), (20, 7, 1), 0, 9.0, GPU Speed Of Light Throughput, DRAM Throughput, %, 0.13, 
+0, 563, python3, 127.0.0.1, <unnamed>::decode_attention_split_kernel(const __half *, __half *, __half *, const __half *, const __half *, const long *, int, float, float *, float *, float *), 1, 7, (128, 1, 1), (20, 7, 1), 0, 9.0, GPU Speed Of Light Throughput, Duration, us, 4.67, 
+0, 563, python3, 127.0.0.1, <unnamed>::decode_attention_split_kernel(const __half *, __half *, __half *, const __half *, const __half *, const long *, int, float, float *, float *, float *), 1, 7, (128, 1, 1), (20, 7, 1), 0, 9.0, GPU Speed Of Light Throughput, Compute (SM) Throughput, %, 0.70, 
+0, 563, python3, 127.0.0.1, <unnamed>::decode_attention_split_kernel(const __half *, __half *, __half *, const __half *, const __half *, const long *, int, float, float *, float *, float *), 1, 7, (128, 1, 1), (20, 7, 1), 0, 9.0, Memory Workload Analysis, Memory Throughput, Gbyte/s, 4.44, 
+0, 563, python3, 127.0.0.1, <unnamed>::decode_attention_split_kernel(const __half *, __half *, __half *, const __half *, const __half *, const long *, int, float, float *, float *, float *), 1, 7, (128, 1, 1), (20, 7, 1), 0, 9.0, Launch Statistics, Block Size, , 128, 
+0, 563, python3, 127.0.0.1, <unnamed>::decode_attention_split_kernel(const __half *, __half *, __half *, const __half *, const __half *, const long *, int, float, float *, float *, float *), 1, 7, (128, 1, 1), (20, 7, 1), 0, 9.0, Launch Statistics, Grid Size, , 140, 
+0, 563, python3, 127.0.0.1, <unnamed>::decode_attention_split_kernel(const __half *, __half *, __half *, const __half *, const __half *, const long *, int, float, float *, float *, float *), 1, 7, (128, 1, 1), (20, 7, 1), 0, 9.0, Launch Statistics, Registers Per Thread, register/thread, 29, 
+0, 563, python3, 127.0.0.1, <unnamed>::decode_attention_split_kernel(const __half *, __half *, __half *, const __half *, const __half *, const long *, int, float, float *, float *, float *), 1, 7, (128, 1, 1), (20, 7, 1), 0, 9.0, Occupancy, Theoretical Occupancy, %, 100, 
+0, 563, python3, 127.0.0.1, <unnamed>::decode_attention_split_kernel(const __half *, __half *, __half *, const __half *, const __half *, const long *, int, float, float *, float *, float *), 1, 7, (128, 1, 1), (20, 7, 1), 0, 9.0, Occupancy, Achieved Occupancy, %, 6.30, 
+decode_attention_combine_kernel:
+ID, Process ID, Process Name, Host Name, Kernel Name, Context, Stream, Block Size, Grid Size, Device, CC, Section Name, Metric Name, Metric Unit, Metric Value, Rule Name, Rule Type, Rule Description, Estimated Speedup Type, Estimated Speedup
+0, 617, python3, 127.0.0.1, <unnamed>::decode_attention_combine_kernel(const float *, const float *, const float *, __half *, int), 1, 7, (64, 1, 1), (20, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, Memory Throughput, %, 7.31, 
+0, 617, python3, 127.0.0.1, <unnamed>::decode_attention_combine_kernel(const float *, const float *, const float *, __half *, int), 1, 7, (64, 1, 1), (20, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, DRAM Throughput, %, 0.11, 
+0, 617, python3, 127.0.0.1, <unnamed>::decode_attention_combine_kernel(const float *, const float *, const float *, __half *, int), 1, 7, (64, 1, 1), (20, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, Duration, us, 4.45, 
+0, 617, python3, 127.0.0.1, <unnamed>::decode_attention_combine_kernel(const float *, const float *, const float *, __half *, int), 1, 7, (64, 1, 1), (20, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, Compute (SM) Throughput, %, 0.27, 
+0, 617, python3, 127.0.0.1, <unnamed>::decode_attention_combine_kernel(const float *, const float *, const float *, __half *, int), 1, 7, (64, 1, 1), (20, 1, 1), 0, 9.0, Memory Workload Analysis, Memory Throughput, Gbyte/s, 3.51, 
+0, 617, python3, 127.0.0.1, <unnamed>::decode_attention_combine_kernel(const float *, const float *, const float *, __half *, int), 1, 7, (64, 1, 1), (20, 1, 1), 0, 9.0, Launch Statistics, Block Size, , 64, 
+0, 617, python3, 127.0.0.1, <unnamed>::decode_attention_combine_kernel(const float *, const float *, const float *, __half *, int), 1, 7, (64, 1, 1), (20, 1, 1), 0, 9.0, Launch Statistics, Grid Size, , 20, 
+0, 617, python3, 127.0.0.1, <unnamed>::decode_attention_combine_kernel(const float *, const float *, const float *, __half *, int), 1, 7, (64, 1, 1), (20, 1, 1), 0, 9.0, Launch Statistics, Registers Per Thread, register/thread, 32, 
+0, 617, python3, 127.0.0.1, <unnamed>::decode_attention_combine_kernel(const float *, const float *, const float *, __half *, int), 1, 7, (64, 1, 1), (20, 1, 1), 0, 9.0, Occupancy, Theoretical Occupancy, %, 100, 
+0, 617, python3, 127.0.0.1, <unnamed>::decode_attention_combine_kernel(const float *, const float *, const float *, __half *, int), 1, 7, (64, 1, 1), (20, 1, 1), 0, 9.0, Occupancy, Achieved Occupancy, %, 3.27, 
+add_layernorm_kernel:
+ID, Process ID, Process Name, Host Name, Kernel Name, Context, Stream, Block Size, Grid Size, Device, CC, Section Name, Metric Name, Metric Unit, Metric Value, Rule Name, Rule Type, Rule Description, Estimated Speedup Type, Estimated Speedup
+0, 671, python3, 127.0.0.1, <unnamed>::add_layernorm_kernel(__half *, const __half *, const __half *, const __half *, __half *, float), 1, 7, (256, 1, 1), (1, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, Memory Throughput, %, 8.09, 
+0, 671, python3, 127.0.0.1, <unnamed>::add_layernorm_kernel(__half *, const __half *, const __half *, const __half *, __half *, float), 1, 7, (256, 1, 1), (1, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, DRAM Throughput, %, 0.14, 
+0, 671, python3, 127.0.0.1, <unnamed>::add_layernorm_kernel(__half *, const __half *, const __half *, const __half *, __half *, float), 1, 7, (256, 1, 1), (1, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, Duration, us, 3.97, 
+0, 671, python3, 127.0.0.1, <unnamed>::add_layernorm_kernel(__half *, const __half *, const __half *, const __half *, __half *, float), 1, 7, (256, 1, 1), (1, 1, 1), 0, 9.0, GPU Speed Of Light Throughput, Compute (SM) Throughput, %, 0.04, 
+0, 671, python3, 127.0.0.1, <unnamed>::add_layernorm_kernel(__half *, const __half *, const __half *, const __half *, __half *, float), 1, 7, (256, 1, 1), (1, 1, 1), 0, 9.0, Memory Workload Analysis, Memory Throughput, Gbyte/s, 4.52, 
+0, 671, python3, 127.0.0.1, <unnamed>::add_layernorm_kernel(__half *, const __half *, const __half *, const __half *, __half *, float), 1, 7, (256, 1, 1), (1, 1, 1), 0, 9.0, Launch Statistics, Block Size, , 256, 
+0, 671, python3, 127.0.0.1, <unnamed>::add_layernorm_kernel(__half *, const __half *, const __half *, const __half *, __half *, float), 1, 7, (256, 1, 1), (1, 1, 1), 0, 9.0, Launch Statistics, Grid Size, , 1, 
+0, 671, python3, 127.0.0.1, <unnamed>::add_layernorm_kernel(__half *, const __half *, const __half *, const __half *, __half *, float), 1, 7, (256, 1, 1), (1, 1, 1), 0, 9.0, Launch Statistics, Registers Per Thread, register/thread, 29, 
+0, 671, python3, 127.0.0.1, <unnamed>::add_layernorm_kernel(__half *, const __half *, const __half *, const __half *, __half *, float), 1, 7, (256, 1, 1), (1, 1, 1), 0, 9.0, Occupancy, Theoretical Occupancy, %, 100, 
+0, 671, python3, 127.0.0.1, <unnamed>::add_layernorm_kernel(__half *, const __half *, const __half *, const __half *, __half *, float), 1, 7, (256, 1, 1), (1, 1, 1), 0, 9.0, Occupancy, Achieved Occupancy, %, 13.11, 
+
+WER
+clips: 100
+vllm aggregate: 0.013123359580052493
+vllm 1995-1826-0023: 0.3157894736842105
+vllm 7176-92135-0045: 0.2857142857142857
+vllm 1089-134691-0014: 0.16666666666666666
+vllm 237-134500-0009: 0.1111111111111111
+vllm 61-70970-0003: 0.09090909090909091
+pytorch aggregate: 0.013123359580052493
+pytorch 1995-1826-0023: 0.3157894736842105
+pytorch 7176-92135-0045: 0.2857142857142857
+pytorch 1089-134691-0014: 0.16666666666666666
+pytorch 237-134500-0009: 0.1111111111111111
+pytorch 61-70970-0003: 0.09090909090909091
+cuda aggregate: 0.013123359580052493
+cuda 1995-1826-0023: 0.3157894736842105
+cuda 7176-92135-0045: 0.2857142857142857
+cuda 1089-134691-0014: 0.16666666666666666
+cuda 237-134500-0009: 0.1111111111111111
+cuda 61-70970-0003: 0.09090909090909091
+difference pytorch - vllm: 0.000 percentage points
+difference cuda - vllm: 0.000 percentage points
+
+GPU CLOCKS
+SM clock MHz min/median/max: 345.0 / 1980.0 / 1980.0
+power W min/median/max: 70.09 / 120.83 / 356.28
+temperature C min/median/max: 35.0 / 38.0 / 46.0
+
+NSYS
+vllm cuda_gpu_kern_sum:
+nvjet_sm90_hsh_64x8_64x16_4x1_v_bz_bias_TNT total_ms=25.357 instances=4440 avg_us=5.711
+void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::Col total_ms=12.950 instances=1764 avg_us=7.341
+void gemv2T_kernel_val<int, int, __half, __half, __half, float, (int)128, (int)16, (int)4, total_ms=11.705 instances=222 avg_us=52.724
+nvjet_sm90_hsh_64x8_64x16_4x1_v_bz_splitK_bias_TNT total_ms=6.361 instances=888 avg_us=7.163
+void cutlass::device_kernel<flash::enable_sm90_or_later<flash::FlashAttnFwdSm90<flash::Col total_ms=4.532 instances=96 avg_us=47.210
+void cutlass::device_kernel<flash::FlashAttnFwdCombine<cute::tuple<cute::C<(int)16>, cute: total_ms=4.530 instances=1752 avg_us=2.586
+nvjet_sm90_hsh_128x120_64x6_2x1_v_bz_bias_TNT total_ms=3.824 instances=192 avg_us=19.916
+triton_red_fused_add_native_layer_norm_0 total_ms=3.651 instances=1752 avg_us=2.084
+nvjet_sm90_hsh_256x120_64x4_2x1_v_bz_coopA_bias_TNT total_ms=3.154 instances=108 avg_us=29.202
+void vllm::reshape_and_cache_flash_kernel<unsigned short, unsigned short, (vllm::Fp8KVCach total_ms=2.446 instances=900 avg_us=2.717
+nvjet_sm90_hsh_176x128_64x5_1x2_h_bz_coopA_bias_TNN total_ms=2.361 instances=96 avg_us=24.596
+triton_red_fused_add_native_layer_norm_2 total_ms=2.095 instances=876 avg_us=2.392
+void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, float, __half, float, __half, (b total_ms=1.783 instances=888 avg_us=2.008
+_gumbel_sample_kernel total_ms=1.781 instances=222 avg_us=8.023
+void at::native::<unnamed>::vectorized_layer_norm_kernel<c10::Half, float, (bool)0>(int, T total_ms=1.339 instances=234 avg_us=5.721
+triton_poi_fused_gelu_1 total_ms=1.092 instances=876 avg_us=1.247
+void flash::prepare_varlen_num_blocks_kernel<(int)1, (bool)0>(int, int, int, const int *,  total_ms=1.086 instances=540 avg_us=2.011
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::GeluCUDAKernelImpl(at:: total_ms=1.025 instances=114 avg_us=8.990
+void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::A total_ms=0.986 instances=222 avg_us=4.444
+_post_update_kernel total_ms=0.881 instances=222 avg_us=3.968
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::CUDAFunctor_add<c10::Ha total_ms=0.808 instances=231 avg_us=3.499
+_gather_block_tables_kernel total_ms=0.766 instances=222 avg_us=3.450
+void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_ker total_ms=0.746 instances=222 avg_us=3.360
+_combine_sampled_and_draft_tokens_kernel total_ms=0.677 instances=222 avg_us=3.049
+_get_num_sampled_and_rejected_kernel total_ms=0.619 instances=222 avg_us=2.787
+vllm GPU kernel ms per pass: 34.001
+vllm cuda_api_sum:
+cudaLaunchKernel total_ms=32.143 instances=None avg_us=7.861
+cudaGraphLaunch_v10000 total_ms=24.487 instances=None avg_us=111.811
+cudaMemcpyAsync total_ms=14.195 instances=None avg_us=8.961
+cuLaunchKernelEx total_ms=13.360 instances=None avg_us=6.520
+cudaEventQuery total_ms=4.571 instances=None avg_us=4.031
+cudaEventRecordWithFlags_v11010 total_ms=3.367 instances=None avg_us=2.134
+cudaStreamIsCapturing_v10000 total_ms=1.397 instances=None avg_us=0.461
+cudaEventSynchronize total_ms=1.019 instances=None avg_us=4.589
+cudaEventCreateWithFlags total_ms=0.794 instances=None avg_us=1.788
+cudaLaunchKernelExC_v11060 total_ms=0.768 instances=None avg_us=6.096
+vllm NVTX range ms per pass: pass0=231.682, pass1=216.793, pass2=214.387
+pytorch cuda_gpu_kern_sum:
+nvjet_sm90_hsh_64x8_64x16_4x1_v_bz_bias_TNT total_ms=28.308 instances=5256 avg_us=5.386
+void at::native::<unnamed>::vectorized_layer_norm_kernel<c10::Half, float, (bool)0>(int, T total_ms=13.058 instances=3042 avg_us=4.293
+void gemv2T_kernel_val<int, int, __half, __half, __half, float, (int)128, (int)16, (int)4, total_ms=11.397 instances=216 avg_us=52.764
+nvjet_sm90_hsh_64x8_64x16_4x1_v_bz_splitK_bias_TNT total_ms=6.450 instances=876 avg_us=7.363
+cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_2_16x128x64_1x4x1_cga1x1x1 total_ms=6.055 instances=864 avg_us=7.008
+nvjet_sm90_hsh_128x120_64x6_2x1_v_bz_bias_TNT total_ms=5.747 instances=396 avg_us=14.512
+void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_noc total_ms=5.602 instances=675 avg_us=8.300
+nvjet_sm90_hsh_64x8_64x16_4x1_v_bz_TNT total_ms=4.053 instances=876 avg_us=4.626
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::CUDAFunctor_add<c10::Ha total_ms=3.790 instances=2847 avg_us=1.331
+cudnn_generated_fort_native_sdpa_sm90_flash_fprop_wgmma_f16_knob_1_64x128x64_4x1x1_cga1x1x total_ms=3.602 instances=120 avg_us=30.013
+void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_noc total_ms=3.581 instances=201 avg_us=17.818
+void at::native::<unnamed>::CatArrayBatchedCopy_vectorized<at::native::<unnamed>::OpaqueTy total_ms=3.082 instances=1728 avg_us=1.784
+void at::native::reduce_kernel<(int)512, (int)1, at::native::ReduceOp<float, at::native::A total_ms=3.016 instances=219 avg_us=13.771
+nvjet_sm90_hsh_256x120_64x4_2x1_v_bz_coopA_bias_TNT total_ms=2.909 instances=96 avg_us=30.304
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::AUnaryFunctor<c10::Half total_ms=2.416 instances=1848 avg_us=1.307
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::GeluCUDAKernelImpl(at:: total_ms=2.265 instances=978 avg_us=2.316
+void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, float, __half, float, __half, (b total_ms=1.825 instances=876 avg_us=2.084
+void cudnn::fusion::lean_reduction_kernel<(bool)0, (bool)0, (bool)0>(void *, float *, floa total_ms=1.798 instances=864 avg_us=2.081
+cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_1_64x64x64_4x1x1_cga1x1x1_ total_ms=1.768 instances=528 avg_us=3.348
+nvjet_sm90_hsh_128x120_64x6_2x1_v_bz_TNT total_ms=1.074 instances=108 avg_us=9.943
+cudnn_generated_fort_native_sdpa_sm80_flash_fprop_wmma_f16_knob_1_64x32x64_4x1x1_cga1x1x1_ total_ms=0.903 instances=336 avg_us=2.688
+void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_ker total_ms=0.887 instances=216 avg_us=4.106
+void at::native::unrolled_elementwise_kernel<at::native::direct_copy_kernel_cuda(at::Tenso total_ms=0.824 instances=219 avg_us=3.763
+void at::native::index_elementwise_kernel<(int)128, (int)4, void at::native::gpu_index_ker total_ms=0.435 instances=222 avg_us=1.960
+void at::native::<unnamed>::indexSelectSmallIndex<c10::Half, long, unsigned int, (int)2, ( total_ms=0.415 instances=219 avg_us=1.895
+pytorch GPU kernel ms per pass: 39.010
+pytorch cuda_api_sum:
+cudaLaunchKernel total_ms=58.658 instances=None avg_us=4.431
+cuLaunchKernelEx total_ms=46.712 instances=None avg_us=4.526
+cudaMemcpyAsync total_ms=8.271 instances=None avg_us=7.492
+cudaStreamSynchronize total_ms=6.332 instances=None avg_us=7.154
+cudaLaunchKernelExC_v11060 total_ms=4.071 instances=None avg_us=4.616
+cuKernelGetAttribute total_ms=1.460 instances=None avg_us=0.096
+cuKernelSetAttribute total_ms=1.351 instances=None avg_us=0.366
+cuKernelGetName total_ms=1.329 instances=None avg_us=0.100
+cudaStreamIsCapturing_v10000 total_ms=1.071 instances=None avg_us=0.426
+cudaMemsetAsync total_ms=0.590 instances=None avg_us=4.916
+pytorch NVTX range ms per pass: pass0=236.726, pass1=228.061, pass2=236.713
+cuda cuda_gpu_kern_sum:
+nvjet_sm90_hsh_64x8_64x16_4x1_v_bz_bias_TNT total_ms=26.055 instances=4560 avg_us=5.714
+<unnamed>::decode_attention_split_kernel(const __half *, __half *, __half *, const __half  total_ms=19.084 instances=1824 avg_us=10.463
+<unnamed>::lm_head_argmax_kernel(const __half *, const __half *, const bool *, int, unsign total_ms=10.140 instances=228 avg_us=44.475
+nvjet_sm90_hsh_64x8_64x16_4x1_v_bz_splitK_bias_TNT total_ms=6.475 instances=912 avg_us=7.100
+<unnamed>::add_layernorm_kernel(__half *, const __half *, const __half *, const __half *,  total_ms=6.360 instances=2964 avg_us=2.146
+<unnamed>::decode_attention_combine_kernel(const float *, const float *, const float *, __ total_ms=5.790 instances=1824 avg_us=3.174
+nvjet_sm90_hsh_128x120_64x6_2x1_v_bz_bias_TNT total_ms=5.613 instances=384 avg_us=14.618
+void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_noc total_ms=5.408 instances=582 avg_us=9.291
+void at::native::elementwise_kernel<(int)128, (int)4, void at::native::gpu_kernel_impl_noc total_ms=3.605 instances=201 avg_us=17.934
+cudnn_generated_fort_native_sdpa_sm90_flash_fprop_wgmma_f16_knob_1_64x128x64_4x1x1_cga1x1x total_ms=3.303 instances=96 avg_us=34.407
+nvjet_sm90_hsh_256x120_64x4_2x1_v_bz_coopA_bias_TNT total_ms=3.089 instances=99 avg_us=31.206
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::GeluCUDAKernelImpl(at:: total_ms=2.189 instances=1014 avg_us=2.159
+void cublasLt::splitKreduce_kernel<(int)32, (int)16, int, float, __half, float, __half, (b total_ms=1.912 instances=912 avg_us=2.096
+void at::native::<unnamed>::vectorized_layer_norm_kernel<c10::Half, float, (bool)0>(int, T total_ms=1.140 instances=195 avg_us=5.845
+void at::native::<unnamed>::indexSelectSmallIndex<c10::Half, long, unsigned int, (int)2, ( total_ms=0.943 instances=456 avg_us=2.067
+nvjet_sm90_hsh_128x120_64x6_2x1_v_bz_TNT total_ms=0.941 instances=96 avg_us=9.806
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::CUDAFunctor_add<c10::Ha total_ms=0.309 instances=228 avg_us=1.356
+<unnamed>::argmax_finalize_kernel(unsigned long long *, long *, long *, long *, int) total_ms=0.309 instances=228 avg_us=1.354
+void cudnn::engines_precompiled::nchwToNhwcKernel<__half, __half, float, (bool)0, (bool)1, total_ms=0.285 instances=12 avg_us=23.733
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::<unnamed>::launch_clamp total_ms=0.255 instances=96 avg_us=2.654
+void at::native::vectorized_elementwise_kernel<(int)8, at::native::AUnaryFunctor<c10::Half total_ms=0.249 instances=96 avg_us=2.595
+sm90_xmma_fprop_implicit_gemm_f16f16_f16f32_f32_nhwckrsc_nhwc_tilesize64x128x64_warpgroups total_ms=0.077 instances=3 avg_us=25.685
+sm90_xmma_fprop_implicit_gemm_f16f16_f16f32_f32_nhwckrsc_nhwc_tilesize256x128x64_warpgroup total_ms=0.034 instances=3 avg_us=11.200
+void cudnn::engines_precompiled::nhwcToNchwKernel<__half, __half, float, (bool)1, (bool)0, total_ms=0.032 instances=6 avg_us=5.365
+void regular_fft_r2c<(unsigned int)400, EPT<(unsigned int)4, (unsigned int)5, (unsigned in total_ms=0.031 instances=3 avg_us=10.229
+cuda GPU kernel ms per pass: 34.601
+cuda cuda_api_sum:
+cudaMemcpyAsync total_ms=81.823 instances=None avg_us=1948.159
+cudaDeviceSynchronize total_ms=24.558 instances=None avg_us=2455.779
+cudaGraphLaunch_v10000 total_ms=13.166 instances=None avg_us=313.475
+cudaStreamSynchronize total_ms=3.766 instances=None avg_us=114.116
+cudaLaunchKernel total_ms=0.413 instances=None avg_us=6.563
+cuLaunchKernel total_ms=0.037 instances=None avg_us=6.190
+cudaMemsetAsync total_ms=0.025 instances=None avg_us=8.223
+cudaLaunchKernelExC_v11060 total_ms=0.024 instances=None avg_us=7.861
+cudaStreamIsCapturing_v10000 total_ms=0.024 instances=None avg_us=0.785
+cuKernelGetName total_ms=0.011 instances=None avg_us=0.174
+cuda NVTX range ms per pass: pass0=43.592, pass1=42.560, pass2=42.219
+
+LOG TAILS
+prepare.log matches:
+prepare.log tail:
+prepared 100 clips
+vllm.log matches:
+(MainProcess pid=28) WARNING 11-11 15:50:40 [model.py:1116] Model does not support mm_device_do_normalize, forcing mm_device_do_normalize = False.
+(MainProcess pid=28) WARNING 11-11 15:50:40 [scheduler.py:348] max_num_batched_tokens (2048) exceeds max_num_seqs * max_model_len (448). This may lead to unexpected behavior.
+(EngineCore pid=100) INFO 11-11 15:50:53 [core.py:139] Initializing a V1 LLM engine (v0.33.0) with config: model='/__modal/volumes/vo-TEOgC91ksHcggvP7JZ9Hdn/huggingface/models--openai--whisper-large-v3-turbo/snapshots/41f01f3fe87f28c78e2fbf8b568835947dd65ed9', speculative_config=None, tokenizer='/__
+(EngineCore pid=100) INFO 11-11 15:50:55 [parallel_state.py:1929] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_0a020723b39540239287fca5312d87e7 backend=nccl
+(EngineCore pid=100) WARNING 11-11 15:50:55 [flashinfer.py:143] FlashInfer's precompiled kernels are missing or do not match flashinfer-python 0.7.2.post1 (flashinfer-cubin not installed, flashinfer-jit-cache not installed). FlashInfer then downloads and compiles kernels at startup, which can take s
+(EngineCore pid=100) INFO 11-11 15:50:57 [cuda.py:567] Using backend AttentionBackendEnum.FLASH_ATTN for vit attention
+(EngineCore pid=100) INFO 11-11 15:50:57 [mm_encoder_attention.py:372] Using AttentionBackendEnum.FLASH_ATTN for MMEncoderAttention.
+(EngineCore pid=100) INFO 11-11 15:50:58 [cuda.py:508] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(EngineCore pid=100) INFO 11-11 15:50:58 [flash_attn.py:1122] Using FlashAttention version 3
+(EngineCore pid=100) INFO 11-11 15:50:58 [cuda.py:508] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'TRITON_ATTN'].
+(EngineCore pid=100) INFO 11-11 15:50:59 [default_loader.py:506] Loading weights took 0.75 seconds
+(EngineCore pid=100) INFO 11-11 15:51:01 [model_runner.py:428] Model loading took 1.51 GiB memory and 4.432545 seconds
+(EngineCore pid=100) WARNING 11-11 15:51:01 [torch_utils.py:269] OMP_NUM_THREADS=8 is set; leaving Torch threads at 8 for serving. Multi-threaded torch CPU ops during serving can degrade performance through spin-wait contention and cgroup CPU-quota throttling.
+(EngineCore pid=100) INFO 11-11 15:51:01 [utils.py:381] Using LBNHC KV cache layout.
+(EngineCore pid=100) INFO 11-11 15:51:04 [monitor.py:40] [backbone] Starting torch.compile
+(EngineCore pid=100) INFO 11-11 15:51:05 [backends.py:1125] [backbone] Using cache directory: /cache/vllm/torch_compile_cache/d0523522e3/rank_0_0/backbone for vLLM's torch.compile
+(EngineCore pid=100) INFO 11-11 15:51:05 [backends.py:1187] [backbone] Dynamo bytecode transform time: 0.80 s
+(EngineCore pid=100) INFO 11-11 15:51:09 [backends.py:417] [backbone] Compiling a graph for compile range (1, 2048) takes 4.14 s
+(EngineCore pid=100) INFO 11-11 15:51:09 [backends.py:948] collected artifacts: 9 entries, 4 artifacts, 3664411 bytes total
+(EngineCore pid=100) INFO 11-11 15:51:09 [decorators.py:752] [backbone] saved AOT compiled function to /cache/vllm/torch_compile_cache/torch_aot_compile/df186e4bd2fa0448ddc794e5dff6ad08b204b9e00ef7f0f0be6f7e438b435ae9/rank_0_0/model
+(EngineCore pid=100) INFO 11-11 15:51:09 [monitor.py:62] [backbone] torch.compile took 5.37 s in total
+Capturing CUDA graphs (FULL):   0%|          | 0/1 [00:00<?, ?it/s]
+Capturing CUDA graphs (FULL): 100%|██████████| 1/1 [00:00<00:00, 14.41it/s]
+(EngineCore pid=100) INFO 11-11 15:52:29 [gpu_worker.py:772] Available KV cache memory: 37.68 GiB
+(EngineCore pid=100) INFO 11-11 15:52:29 [gpu_worker.py:787] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.5000 is equivalent to --gpu-memory-utilization=0.4996 without CUDA graph memory profiling. To maintain the same effective KV cache size 
+(EngineCore pid=100) INFO 11-11 15:52:29 [kv_cache_utils.py:1147] GPU KV cache size: 354,592 tokens, Maximum concurrency for 448 tokens per request: 791.50x
+(EngineCore pid=100) INFO 11-11 15:52:29 [kv_cache_utils.py:865] kv cache group sizes (16, 16)
+Capturing CUDA graphs (FULL):   0%|          | 0/1 [00:00<?, ?it/s]
+Capturing CUDA graphs (FULL): 100%|██████████| 1/1 [00:00<00:00, 80.00it/s]
+(EngineCore pid=100) INFO 11-11 15:52:32 [gpu_worker.py:1003] CUDA graph pool memory: 0.04 GiB (actual), 0.04 GiB (estimated), difference: 0.0 GiB (0.0%).
+(EngineCore pid=100) INFO 11-11 15:52:32 [gpu_worker.py:1066] Free memory on device (78.47/79.17 GiB) on startup. Desired GPU memory utilization is (0.5, 39.59 GiB). Actual usage is 1.73 GiB for consumed memory (weights + non-torch), 0.17 GiB for peak activation, and 0.04 GiB for CUDAGraph memory. R
+(EngineCore pid=100) INFO 11-11 15:52:33 [jit_monitor.py:84] Kernel JIT monitor activated; monitored JIT compilations during inference will use mode=warn.
+(EngineCore pid=100) INFO 11-11 15:52:34 [core.py:405] init engine (profile, create kv cache, warmup model) took 92.86 s (compilation: 5.37 s)
+(MainProcess pid=28) WARNING 11-11 15:52:34 [input_processor.py:408] Passing raw prompts to InputProcessor is deprecated and will be removed in the future. You should instead pass the outputs of Renderer.render_cmpl() or Renderer.render_chat().
+vllm.log tail:
+(EngineCore pid=100) INFO 11-11 15:51:09 [decorators.py:752] [backbone] saved AOT compiled function to /cache/vllm/torch_compile_cache/torch_aot_compile/df186e4bd2fa0448ddc794e5dff6ad08b204b9e00ef7f0f0be6f7e438b435ae9/rank_0_0/model
+(EngineCore pid=100) INFO 11-11 15:51:09 [monitor.py:62] [backbone] torch.compile took 5.37 s in total
+(EngineCore pid=100) INFO 11-11 15:51:09 [monitor.py:91] [backbone] Initial profiling/warmup run took 0.07 s
+2026-11-11 15:51:12,609 - INFO - core.py:594 - flashinfer.jit: Building JIT module sampling; this can take several minutes on first use.
+
+Capturing CUDA graphs (FULL):   0%|          | 0/1 [00:00<?, ?it/s]
+Capturing CUDA graphs (FULL): 100%|██████████| 1/1 [00:00<00:00, 14.41it/s]
+(EngineCore pid=100) INFO 11-11 15:52:29 [model_runner.py:1163] Graph capturing finished in 1 secs, took 0.04 GiB
+(EngineCore pid=100) INFO 11-11 15:52:29 [gpu_worker.py:772] Available KV cache memory: 37.68 GiB
+(EngineCore pid=100) INFO 11-11 15:52:29 [gpu_worker.py:787] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.5000 is equivalent to --gpu-memory-utilization=0.4996 without CUDA graph memory profiling. To maintain the same effective KV cache size 
+(EngineCore pid=100) INFO 11-11 15:52:29 [kv_cache_utils.py:1147] GPU KV cache size: 354,592 tokens, Maximum concurrency for 448 tokens per request: 791.50x
+(EngineCore pid=100) INFO 11-11 15:52:29 [kv_cache_utils.py:865] kv cache group sizes (16, 16)
+(EngineCore pid=100) INFO 11-11 15:52:29 [kv_cache_utils.py:866] kv lcm block sizes 16
+(EngineCore pid=100) INFO 11-11 15:52:29 [kernel_warmup.py:179] JIT kernel warmup starting.
+(EngineCore pid=100) INFO 11-11 15:52:29 [kernel_warmup.py:192] JIT kernel warmup finished in 0.00s.
+(EngineCore pid=100) INFO 11-11 15:52:29 [kernel_warmup.py:485] Using FlashInfer managed autotune cache (root=flashinfer default). Pass --disable-flashinfer-autotune to skip autotuning.
+2026-11-11 15:52:29,808 - INFO - autotuner.py:1048 - flashinfer.jit: [Autotuner]: Autotuning process starts ...
+2026-11-11 15:52:29,903 - INFO - autotune_cache.py:495 - flashinfer.jit: [Autotuner]: Managed autotune cache attached for this process: ManagedAutotuneCache(env_dir='/root/.cache/flashinfer/autotune/v2/5e9bee35662caab8', hits=0, misses=0)
+(EngineCore pid=100) INFO 11-11 15:52:29 [kernel_warmup.py:371] Running FlashInfer autotune with 2048 tokens and token buckets (1, 2, 4, 8, 16, 32, 64, 128, 256, 512, 768, 1024, 1280, 1536, 1792, 2048).
+2026-11-11 15:52:29,919 - INFO - autotuner.py:1071 - flashinfer.jit: [Autotuner]: Autotuning process ends
+
+Capturing CUDA graphs (FULL):   0%|          | 0/1 [00:00<?, ?it/s]
+Capturing CUDA graphs (FULL): 100%|██████████| 1/1 [00:00<00:00, 80.00it/s]
+(EngineCore pid=100) INFO 11-11 15:52:32 [model_runner.py:1163] Graph capturing finished in 1 secs, took 0.04 GiB
+(EngineCore pid=100) INFO 11-11 15:52:32 [gpu_worker.py:1003] CUDA graph pool memory: 0.04 GiB (actual), 0.04 GiB (estimated), difference: 0.0 GiB (0.0%).
+(EngineCore pid=100) INFO 11-11 15:52:32 [gpu_worker.py:1066] Free memory on device (78.47/79.17 GiB) on startup. Desired GPU memory utilization is (0.5, 39.59 GiB). Actual usage is 1.73 GiB for consumed memory (weights + non-torch), 0.17 GiB for peak activation, and 0.04 GiB for CUDAGraph memory. R
+(EngineCore pid=100) INFO 11-11 15:52:33 [jit_monitor.py:84] Kernel JIT monitor activated; monitored JIT compilations during inference will use mode=warn.
+(EngineCore pid=100) INFO 11-11 15:52:34 [core.py:405] init engine (profile, create kv cache, warmup model) took 92.86 s (compilation: 5.37 s)
+(EngineCore pid=100) INFO 11-11 15:52:34 [kernel.py:480] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'], gelu_and_mul_sparse=['triton', 'native'])
+(MainProcess pid=28) WARNING 11-11 15:52:34 [input_processor.py:408] Passing raw prompts to InputProcessor is deprecated and will be removed in the future. You should instead pass the outputs of Renderer.render_cmpl() or Renderer.render_chat().
+(MainProcess pid=28) INFO 11-11 15:52:51 [core_client.py:792] [shutdown] MPClient: start timeout=default
+(MainProcess pid=28) INFO 11-11 15:52:51 [core_client.py:794] [shutdown] MPClient: stopping engine manager
+(MainProcess pid=28) INFO 11-11 15:52:51 [utils.py:628] [shutdown] Process manager: send sigterm to process EngineCore
+(EngineCore pid=100) INFO 11-11 15:52:51 [core.py:1525] [shutdown] EngineCore: trigger received signal=SIGTERM
+(EngineCore pid=100) INFO 11-11 15:52:51 [core.py:1712] [shutdown] EngineCore: start mode=abort timeout=0s
+(EngineCore pid=100) INFO 11-11 15:52:51 [core.py:1743] [shutdown] EngineCore: request processing complete; starting resource teardown
+(EngineCore pid=100) INFO 11-11 15:52:51 [core.py:1573] [shutdown] EngineCore: exiting busy loop
+(MainProcess pid=28) INFO 11-11 15:52:56 [core_client.py:796] [shutdown] MPClient: engine manager stopped
+(MainProcess pid=28) INFO 11-11 15:52:56 [core_client.py:797] [shutdown] MPClient: cleaning up background resources
+(MainProcess pid=28) INFO 11-11 15:52:56 [core_client.py:799] [shutdown] MPClient: complete
+pytorch.log matches:
+Loading weights:   0%|          | 0/587 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 587/587 [00:00<00:00, 9142.67it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer WhisperTokenizer. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this 
+pytorch.log tail:
+
+Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]
+Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 492.44it/s]
+
+Loading weights:   0%|          | 0/587 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 587/587 [00:00<00:00, 9142.67it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer WhisperTokenizer. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this 
+cuda.log matches:
+Loading weights:   0%|          | 0/587 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 587/587 [00:00<00:00, 8705.48it/s]
+/app/custom/model.py:96: UserWarning: Specified kernel cache directory could not be created! This disables kernel caching. Specified directory is /cache/xdg/torch/kernels. This warning will appear only once per process. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/native/cuda/jit_util
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer WhisperTokenizer. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this 
+cuda.log tail:
+
+Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]
+Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 708.78it/s]
+
+Loading weights:   0%|          | 0/587 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 587/587 [00:00<00:00, 8705.48it/s]
+/app/custom/model.py:96: UserWarning: Specified kernel cache directory could not be created! This disables kernel caching. Specified directory is /cache/xdg/torch/kernels. This warning will appear only once per process. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/native/cuda/jit_util
+  mel = torch.clamp(self.mel_filters.T @ (stft[..., :-1].abs() ** 2), min=1e-10).log10()
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer WhisperTokenizer. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this 
+cuda.log matches:
+Loading weights:   0%|          | 0/587 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 587/587 [00:00<00:00, 9423.67it/s]
+/app/custom/model.py:96: UserWarning: Specified kernel cache directory could not be created! This disables kernel caching. Specified directory is /cache/xdg/torch/kernels. This warning will appear only once per process. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/native/cuda/jit_util
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer WhisperTokenizer. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this 
+cuda.log tail:
+
+Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]
+Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 685.32it/s]
+
+Loading weights:   0%|          | 0/587 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 587/587 [00:00<00:00, 9423.67it/s]
+/app/custom/model.py:96: UserWarning: Specified kernel cache directory could not be created! This disables kernel caching. Specified directory is /cache/xdg/torch/kernels. This warning will appear only once per process. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/native/cuda/jit_util
+  mel = torch.clamp(self.mel_filters.T @ (stft[..., :-1].abs() ** 2), min=1e-10).log10()
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer WhisperTokenizer. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this 
+Capture range started in the application.
+Capture range ended in the application.
+Generating '/tmp/nsys-report-7eb1.qdstrm'
+
+[1/1] [0%                          ] cuda.nsys-repProcessing events...
+
+[1/1] [0%                          ] cuda.nsys-rep
+[1/1] [==========47%               ] cuda.nsys-rep
+[1/1] [=======================95%  ] cuda.nsys-rep
+[1/1] [0%                          ] cuda.nsys-rep
+[1/1] [==========48%               ] cuda.nsys-rep
+[1/1] [=============59%            ] cuda.nsys-rep
+[1/1] [========================100%] cuda.nsys-rep
+[1/1] [========================100%] cuda.nsys-rep
+Generated:
+	/cache/runs/57fc6208ab90409e94716a447a568013/nsys/cuda.nsys-rep
+pytorch.log matches:
+Loading weights:   0%|          | 0/587 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 587/587 [00:00<00:00, 11408.97it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer WhisperTokenizer. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this 
+pytorch.log tail:
+
+Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]
+Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 829.87it/s]
+
+Loading weights:   0%|          | 0/587 [00:00<?, ?it/s]
+Loading weights: 100%|██████████| 587/587 [00:00<00:00, 11408.97it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer WhisperTokenizer. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this 
+Capture range started in the application.
+Capture range ended in the application.
+Generating '/tmp/nsys-report-c73a.qdstrm'
+
+[1/1] [0%                          ] pytorch.nsys-repProcessing events...
+
+[1/1] [0%                          ] pytorch.nsys-rep
+[1/1] [==========47%               ] pytorch.nsys-rep
+[1/1] [=======================94%  ] pytorch.nsys-rep
+[1/1] [=======================95%  ] pytorch.nsys-rep
+[1/1] [0%                          ] pytorch.nsys-rep
+[1/1] [=16%                        ] pytorch.nsys-rep
+[1/1] [=====32%                    ] pytorch.nsys-rep
+[1/1] [==========48%               ] pytorch.nsys-rep
+[1/1] [===============65%          ] pytorch.nsys-rep
+[1/1] [===================81%      ] pytorch.nsys-rep
+[1/1] [====================84%     ] pytorch.nsys-rep
+[1/1] [========================100%] pytorch.nsys-rep
+[1/1] [========================100%] pytorch.nsys-rep
+Generated:
+	/cache/runs/57fc6208ab90409e94716a447a568013/nsys/pytorch.nsys-rep
+vllm.log matches:
+(MainProcess pid=726) WARNING 11-11 15:54:42 [model.py:1116] Model does not support mm_device_do_normalize, forcing mm_device_do_normalize = False.
+(MainProcess pid=726) WARNING 11-11 15:54:43 [scheduler.py:348] max_num_batched_tokens (2048) exceeds max_num_seqs * max_model_len (448). This may lead to unexpected behavior.
+(EngineCore pid=792) INFO 11-11 15:54:56 [core.py:139] Initializing a V1 LLM engine (v0.33.0) with config: model='/__modal/volumes/vo-TEOgC91ksHcggvP7JZ9Hdn/huggingface/models--openai--whisper-large-v3-turbo/snapshots/41f01f3fe87f28c78e2fbf8b568835947dd65ed9', speculative_config=None, tokenizer='/__
+(EngineCore pid=792) INFO 11-11 15:54:58 [parallel_state.py:1929] world_size=1 rank=0 local_rank=0 distributed_init_method=file:///tmp/vllm_dist_edd3873466b048f790c915dd3338f3fe backend=nccl
+(EngineCore pid=792) WARNING 11-11 15:54:58 [flashinfer.py:143] FlashInfer's precompiled kernels are missing or do not match flashinfer-python 0.7.2.post1 (flashinfer-cubin not installed, flashinfer-jit-cache not installed). FlashInfer then downloads and compiles kernels at startup, which can take s
+(EngineCore pid=792) INFO 11-11 15:54:59 [cuda.py:567] Using backend AttentionBackendEnum.FLASH_ATTN for vit attention
+(EngineCore pid=792) INFO 11-11 15:54:59 [mm_encoder_attention.py:372] Using AttentionBackendEnum.FLASH_ATTN for MMEncoderAttention.
+(EngineCore pid=792) INFO 11-11 15:55:00 [cuda.py:508] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'FLASHINFER', 'TRITON_ATTN', 'FLEX_ATTENTION'].
+(EngineCore pid=792) INFO 11-11 15:55:00 [flash_attn.py:1122] Using FlashAttention version 3
+(EngineCore pid=792) INFO 11-11 15:55:00 [cuda.py:508] Using FLASH_ATTN attention backend out of potential backends: ['FLASH_ATTN', 'TRITON_ATTN'].
+(EngineCore pid=792) INFO 11-11 15:55:01 [default_loader.py:506] Loading weights took 0.45 seconds
+(EngineCore pid=792) INFO 11-11 15:55:03 [model_runner.py:428] Model loading took 1.51 GiB memory and 4.224245 seconds
+(EngineCore pid=792) WARNING 11-11 15:55:03 [torch_utils.py:269] OMP_NUM_THREADS=8 is set; leaving Torch threads at 8 for serving. Multi-threaded torch CPU ops during serving can degrade performance through spin-wait contention and cgroup CPU-quota throttling.
+(EngineCore pid=792) INFO 11-11 15:55:03 [utils.py:381] Using LBNHC KV cache layout.
+(EngineCore pid=792) INFO 11-11 15:55:06 [caching.py:342] reconstructed serializable fn from standalone compile artifacts. num_artifacts=4 num_submods=9
+(EngineCore pid=792) INFO 11-11 15:55:06 [decorators.py:326] [backbone] Directly load AOT compilation from path /cache/vllm/torch_compile_cache/torch_aot_compile/df186e4bd2fa0448ddc794e5dff6ad08b204b9e00ef7f0f0be6f7e438b435ae9/rank_0_0/model
+(EngineCore pid=792) INFO 11-11 15:55:06 [monitor.py:62] [backbone] torch.compile took 0.24 s in total
+Capturing CUDA graphs (FULL):   0%|          | 0/1 [00:00<?, ?it/s]
+Capturing CUDA graphs (FULL): 100%|██████████| 1/1 [00:00<00:00, 13.41it/s]
+(EngineCore pid=792) INFO 11-11 15:55:10 [gpu_worker.py:772] Available KV cache memory: 37.77 GiB
+(EngineCore pid=792) INFO 11-11 15:55:10 [gpu_worker.py:787] CUDA graph memory profiling is enabled (default since v0.21.0). The current --gpu-memory-utilization=0.5000 is equivalent to --gpu-memory-utilization=0.4995 without CUDA graph memory profiling. To maintain the same effective KV cache size 
+(EngineCore pid=792) INFO 11-11 15:55:10 [kv_cache_utils.py:1147] GPU KV cache size: 355,473 tokens, Maximum concurrency for 448 tokens per request: 793.47x
+(EngineCore pid=792) INFO 11-11 15:55:10 [kv_cache_utils.py:865] kv cache group sizes (16, 16)
+Capturing CUDA graphs (FULL):   0%|          | 0/1 [00:00<?, ?it/s]
+Capturing CUDA graphs (FULL): 100%|██████████| 1/1 [00:00<00:00, 81.92it/s]
+(EngineCore pid=792) INFO 11-11 15:55:11 [gpu_worker.py:1003] CUDA graph pool memory: 0.04 GiB (actual), 0.04 GiB (estimated), difference: 0.0 GiB (5.6%).
+(EngineCore pid=792) INFO 11-11 15:55:11 [gpu_worker.py:1066] Free memory on device (78.34/79.17 GiB) on startup. Desired GPU memory utilization is (0.5, 39.59 GiB). Actual usage is 1.73 GiB for consumed memory (weights + non-torch), 0.08 GiB for peak activation, and 0.04 GiB for CUDAGraph memory. R
+(EngineCore pid=792) INFO 11-11 15:55:12 [jit_monitor.py:84] Kernel JIT monitor activated; monitored JIT compilations during inference will use mode=warn.
+(EngineCore pid=792) INFO 11-11 15:55:13 [core.py:405] init engine (profile, create kv cache, warmup model) took 9.36 s (compilation: 0.24 s)
+(MainProcess pid=726) WARNING 11-11 15:55:13 [input_processor.py:408] Passing raw prompts to InputProcessor is deprecated and will be removed in the future. You should instead pass the outputs of Renderer.render_cmpl() or Renderer.render_chat().
+vllm.log tail:
+Capturing CUDA graphs (FULL):   0%|          | 0/1 [00:00<?, ?it/s]
+Capturing CUDA graphs (FULL): 100%|██████████| 1/1 [00:00<00:00, 81.92it/s]
+(EngineCore pid=792) INFO 11-11 15:55:11 [model_runner.py:1163] Graph capturing finished in 1 secs, took 0.04 GiB
+(EngineCore pid=792) INFO 11-11 15:55:11 [gpu_worker.py:1003] CUDA graph pool memory: 0.04 GiB (actual), 0.04 GiB (estimated), difference: 0.0 GiB (5.6%).
+(EngineCore pid=792) INFO 11-11 15:55:11 [gpu_worker.py:1066] Free memory on device (78.34/79.17 GiB) on startup. Desired GPU memory utilization is (0.5, 39.59 GiB). Actual usage is 1.73 GiB for consumed memory (weights + non-torch), 0.08 GiB for peak activation, and 0.04 GiB for CUDAGraph memory. R
+(EngineCore pid=792) INFO 11-11 15:55:12 [jit_monitor.py:84] Kernel JIT monitor activated; monitored JIT compilations during inference will use mode=warn.
+(EngineCore pid=792) INFO 11-11 15:55:13 [core.py:405] init engine (profile, create kv cache, warmup model) took 9.36 s (compilation: 0.24 s)
+(EngineCore pid=792) INFO 11-11 15:55:13 [kernel.py:480] Final IR op priority after setting platform defaults: IrOpPriorityConfig(rms_norm=['native'], fused_add_rms_norm=['native'], gelu_and_mul_sparse=['triton', 'native'])
+(MainProcess pid=726) WARNING 11-11 15:55:13 [input_processor.py:408] Passing raw prompts to InputProcessor is deprecated and will be removed in the future. You should instead pass the outputs of Renderer.render_cmpl() or Renderer.render_chat().
+Capture range started in the application.
+Capture range ended in the application.
+Generating '/tmp/nsys-report-c112.qdstrm'
+
+[1/1] [0%                          ] vllm.nsys-repProcessing events...
+
+[1/1] [0%                          ] vllm.nsys-rep
+[1/1] [==========48%               ] vllm.nsys-rep
+[1/1] [=======================96%  ] vllm.nsys-rep
+[1/1] [========================97% ] vllm.nsys-rep
+[1/1] [0%                          ] vllm.nsys-rep
+[1/1] [=16%                        ] vllm.nsys-rep
+[1/1] [=======37%                  ] vllm.nsys-rep
+[1/1] [=============58%            ] vllm.nsys-rep
+[1/1] [===============66%          ] vllm.nsys-rep
+[1/1] [========================100%] vllm.nsys-rep
+[1/1] [========================100%] vllm.nsys-rep
+(EngineCore pid=792) INFO 11-11 15:55:17 [wrapper.py:98] Profiler stopped successfully.
+(MainProcess pid=726) INFO 11-11 15:55:17 [core_client.py:792] [shutdown] MPClient: start timeout=default
+(MainProcess pid=726) INFO 11-11 15:55:17 [core_client.py:794] [shutdown] MPClient: stopping engine manager
+(MainProcess pid=726) INFO 11-11 15:55:17 [utils.py:628] [shutdown] Process manager: send sigterm to process EngineCore
+(EngineCore pid=792) INFO 11-11 15:55:17 [core.py:1525] [shutdown] EngineCore: trigger received signal=SIGTERM
+(EngineCore pid=792) INFO 11-11 15:55:17 [core.py:1712] [shutdown] EngineCore: start mode=abort timeout=0s
+(EngineCore pid=792) INFO 11-11 15:55:17 [core.py:1743] [shutdown] EngineCore: request processing complete; starting resource teardown
+(EngineCore pid=792) INFO 11-11 15:55:17 [core.py:1573] [shutdown] EngineCore: exiting busy loop
+(EngineCore pid=792) INFO 11-11 15:55:17 [wrapper.py:194] Shutting down profiler
+(MainProcess pid=726) INFO 11-11 15:55:21 [core_client.py:796] [shutdown] MPClient: engine manager stopped
+(MainProcess pid=726) INFO 11-11 15:55:21 [core_client.py:797] [shutdown] MPClient: cleaning up background resources
+(MainProcess pid=726) INFO 11-11 15:55:21 [core_client.py:799] [shutdown] MPClient: complete
+Generated:
+	/cache/runs/57fc6208ab90409e94716a447a568013/nsys/vllm.nsys-rep
+
+BUDGET
+estimated cost USD: 0.4540
+Check the Modal dashboard.

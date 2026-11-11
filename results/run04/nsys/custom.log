@@ -1,0 +1,6 @@
+Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 1039.74it/s]
+Collecting data...
+Generating '/tmp/nsys-report-c243.qdstrm'
+[1/1] [0%                          ] custom.nsys-rep[1/1] [0%                          ] custom.nsys-rep[1/1] [8%                          ] custom.nsys-rep[1/1] [=16%                        ] custom.nsys-rep[1/1] [====25%                     ] custom.nsys-rep[1/1] [=======39%                  ] custom.nsys-rep[1/1] [===========53%              ] custom.nsys-rep[1/1] [===============65%          ] custom.nsys-rep[1/1] [========================100%] custom.nsys-rep[1/1] [========================100%] custom.nsys-rep
+Generated:
+    /cache/runs/ffe3c5c7f573444bbed1c596b1287ab2/nsys/custom.nsys-rep

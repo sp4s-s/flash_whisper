@@ -1,0 +1,32 @@
+[
+  {
+    "run_id": "229362abe7fc4d5e94700079e810a820",
+    "gpu_seconds": 14.287558291005553,
+    "estimated_cost_usd": 0.002784073608585342,
+    "remote_time_known": false
+  },
+  {
+    "run_id": "133414749b0c4e62b03df7e2e96944c1",
+    "gpu_seconds": 60.364074883,
+    "estimated_cost_usd": 0.06808222549754038,
+    "remote_time_known": true
+  },
+  {
+    "run_id": "ffe3c5c7f573444bbed1c596b1287ab2",
+    "gpu_seconds": 249.199375856,
+    "estimated_cost_usd": 0.2810620080529482,
+    "remote_time_known": true
+  },
+  {
+    "run_id": "168c41a94b064e4eb27a94440621cae4",
+    "gpu_seconds": 248.217907852,
+    "estimated_cost_usd": 0.27995504954995676,
+    "remote_time_known": true
+  },
+  {
+    "run_id": "57fc6208ab90409e94716a447a568013",
+    "gpu_seconds": 356.66632853600004,
+    "estimated_cost_usd": 0.45397916961376233,
+    "remote_time_known": true
+  }
+]

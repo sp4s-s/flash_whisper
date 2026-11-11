@@ -1,0 +1,10 @@
+Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 697.92it/s]
+Loading weights:   0%|          | 0/587 [00:00<?, ?it/s]Loading weights: 100%|██████████| 587/587 [00:00<00:00, 12335.57it/s]
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer WhisperTokenizer. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+Capture range started in the application.
+Capture range ended in the application.
+Generating '/tmp/nsys-report-dd3b.qdstrm'
+[1/1] [0%                          ] custom.nsys-repProcessing events...
+[1/1] [0%                          ] custom.nsys-rep[1/1] [=========46%                ] custom.nsys-rep[1/1] [=======================93%  ] custom.nsys-rep[1/1] [0%                          ] custom.nsys-rep[1/1] [10%                         ] custom.nsys-rep[1/1] [7%                          ] custom.nsys-rep[1/1] [=========45%                ] custom.nsys-rep[1/1] [==============63%           ] custom.nsys-rep[1/1] [========================100%] custom.nsys-rep[1/1] [========================100%] custom.nsys-rep
+Generated:
+	/cache/runs/168c41a94b064e4eb27a94440621cae4/nsys/custom.nsys-rep

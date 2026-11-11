@@ -1,0 +1,7 @@
+==PROF== Connected to process 388 (/usr/local/bin/python3)
+==PROF== Profiling "decode_attention_kernel": 0%.
+==ERROR== An error was reported by the driver:
+==ERROR== Failed to lock GPU clock frequencies! Try locking the clocks externally (e.g. using 'nvidia-smi --lock-gpu-clocks=tdp,tdp') or profile without fixed frequencies (see '--clock-control').
+==ERROR== Failed to profile "decode_attention_kernel" in process 388
+==PROF== Trying to shutdown target application
+==ERROR== The application returned an error code (9).

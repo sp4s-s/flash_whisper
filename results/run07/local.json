@@ -1,0 +1,7 @@
+{
+  "run_id": "57fc6208ab90409e94716a447a568013",
+  "status": "download attempted",
+  "code_sha256": "e612cef731c175326d38c04a19c081e3f5d6db461f7c4e6ff0b92d847103444f",
+  "notice": "Budget estimates exclude image builds and storage; they are not a Modal billing limit.",
+  "local_wall_seconds": 377.89309716701973
+}

@@ -1,0 +1,7 @@
+==PROF== Connected to process 316 (/usr/local/bin/python3)
+==PROF== Profiling "lm_head_argmax_kernel": 0%.
+==ERROR== An error was reported by the driver:
+==ERROR== Failed to lock GPU clock frequencies! Try locking the clocks externally (e.g. using 'nvidia-smi --lock-gpu-clocks=tdp,tdp') or profile without fixed frequencies (see '--clock-control').
+==ERROR== Failed to profile "lm_head_argmax_kernel" in process 316
+==PROF== Trying to shutdown target application
+==ERROR== The application returned an error code (9).

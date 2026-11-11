@@ -1,0 +1,12 @@
+Fetching 13 files:   0%|          | 0/13 [00:00<?, ?it/s]Fetching 13 files: 100%|██████████| 13/13 [00:00<00:00, 685.32it/s]
+Loading weights:   0%|          | 0/587 [00:00<?, ?it/s]Loading weights: 100%|██████████| 587/587 [00:00<00:00, 9423.67it/s]
+/app/custom/model.py:96: UserWarning: Specified kernel cache directory could not be created! This disables kernel caching. Specified directory is /cache/xdg/torch/kernels. This warning will appear only once per process. (Triggered internally at /__w/pytorch/pytorch/aten/src/ATen/native/cuda/jit_utils.cpp:1504.)
+  mel = torch.clamp(self.mel_filters.T @ (stft[..., :-1].abs() ** 2), min=1e-10).log10()
+[transformers] Ignoring clean_up_tokenization_spaces=True for BPE tokenizer WhisperTokenizer. The clean_up_tokenization post-processing step is designed for WordPiece tokenizers and is destructive for BPE (it strips spaces before punctuation). Set clean_up_tokenization_spaces=False to suppress this warning, or set clean_up_tokenization_spaces_for_bpe_even_though_it_will_corrupt_output=True to force cleanup anyway.
+Capture range started in the application.
+Capture range ended in the application.
+Generating '/tmp/nsys-report-7eb1.qdstrm'
+[1/1] [0%                          ] cuda.nsys-repProcessing events...
+[1/1] [0%                          ] cuda.nsys-rep[1/1] [==========47%               ] cuda.nsys-rep[1/1] [=======================95%  ] cuda.nsys-rep[1/1] [0%                          ] cuda.nsys-rep[1/1] [==========48%               ] cuda.nsys-rep[1/1] [=============59%            ] cuda.nsys-rep[1/1] [========================100%] cuda.nsys-rep[1/1] [========================100%] cuda.nsys-rep
+Generated:
+	/cache/runs/57fc6208ab90409e94716a447a568013/nsys/cuda.nsys-rep

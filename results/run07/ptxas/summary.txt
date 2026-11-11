@@ -1,0 +1,27 @@
+[1/2] /usr/local/cuda/bin/nvcc -MD -MF whisper_kernels.cuda.o.d -DTORCH_EXTENSION_NAME=whisper_ext -DTORCH_API_INCLUDE_EXTENSION_H -isystem /usr/local/lib/python3.12/site-packages/torch/include -isystem /usr/local/lib/python3.12/site-packages/torch/include/torch/csrc/api/include -isystem /usr/local/cuda/include -isystem /usr/local/include/python3.12 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_90a,code=sm_90a --compiler-options '-fPIC' -O3 -lineinfo -Xptxas=-v,-warn-spills --expt-relaxed-constexpr -std=c++20 -c /app/custom/kernels/whisper_kernels.cu -o whisper_kernels.cuda.o 
+ptxas info    : 28 bytes gmem
+ptxas info    : Compiling entry function '_ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd20add_layernorm_kernelEP6__halfPKS0_S3_S3_S1_f' for 'sm_90a'
+ptxas info    : Function properties for _ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd20add_layernorm_kernelEP6__halfPKS0_S3_S3_S1_f
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 29 registers, used 1 barriers, 32 bytes smem
+ptxas info    : Compile time = 12.880 ms
+ptxas info    : Compiling entry function '_ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd31decode_attention_combine_kernelEPKfS1_S1_P6__halfi' for 'sm_90a'
+ptxas info    : Function properties for _ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd31decode_attention_combine_kernelEPKfS1_S1_P6__halfi
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 32 registers, used 0 barriers
+ptxas info    : Compile time = 14.852 ms
+ptxas info    : Compiling entry function '_ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd29decode_attention_split_kernelEPK6__halfPS0_S3_S2_S2_PKlifPfS6_S6_' for 'sm_90a'
+ptxas info    : Function properties for _ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd29decode_attention_split_kernelEPK6__halfPS0_S3_S2_S2_PKlifPfS6_S6_
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 29 registers, used 1 barriers, 1296 bytes smem
+ptxas info    : Compile time = 17.374 ms
+ptxas info    : Compiling entry function '_ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd22argmax_finalize_kernelEPyPlS1_S1_i' for 'sm_90a'
+ptxas info    : Function properties for _ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd22argmax_finalize_kernelEPyPlS1_S1_i
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 22 registers, used 0 barriers
+ptxas info    : Compile time = 2.034 ms
+ptxas info    : Compiling entry function '_ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd21lm_head_argmax_kernelEPK6__halfS2_PKbiPy' for 'sm_90a'
+ptxas info    : Function properties for _ZN51_GLOBAL__N__5ce5357b_18_whisper_kernels_cu_862671dd21lm_head_argmax_kernelEPK6__halfS2_PKbiPy
+    0 bytes stack frame, 0 bytes spill stores, 0 bytes spill loads
+ptxas info    : Used 64 registers, used 1 barriers, 64 bytes smem
+ptxas info    : Compile time = 12.832 ms

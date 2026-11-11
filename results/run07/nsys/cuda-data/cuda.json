@@ -1,0 +1,106 @@
+{
+  "status": "profile complete",
+  "timings": {},
+  "model": "openai/whisper-large-v3-turbo",
+  "backend": "cuda",
+  "errors": [],
+  "timing_boundary": "in-memory 16 kHz float32 audio through decoded text",
+  "fairness": "All paths use the same prompt, greedy decoding and the checkpoint suppress lists; token ids are compared in the report.",
+  "environment": {
+    "python": "3.12.1",
+    "torch": "2.14.0+cu130",
+    "cuda": "13.0",
+    "transformers": "5.20.2",
+    "vllm": "0.33.0",
+    "nvidia-smi": "Wed Nov 11 15:55:54 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA H100 80GB HBM3          On  |   00000000:84:00.0 Off |                    0 |\n| N/A   36C    P0             71W /  700W |     122MiB /  81559MiB |      0%      Default |\n|                                         |                        |             Disabled |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|  No running processes found                                                             |\n+-----------------------------------------------------------------------------------------+\n",
+    "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Wed_Aug_20_01:58:59_PM_PDT_2025\nCuda compilation tools, release 13.0, V13.0.88\nBuild cuda_13.0.r13.0/compiler.36424714_0\n",
+    "gpu": "NVIDIA H100 80GB HBM3"
+  },
+  "dataset_load_s": 0.10653242000000773,
+  "model_revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+  "model_download_or_cache_lookup_s": 0.020725854000033905,
+  "selftest": {
+    "ok": true,
+    "checks": [
+      {
+        "name": "add_layernorm",
+        "max_err": 0.0018949508666992188,
+        "ok": true
+      },
+      {
+        "name": "decode_attention_self_1",
+        "max_err": 0.0,
+        "ok": true
+      },
+      {
+        "name": "kv_write_1",
+        "max_err": 0.0,
+        "ok": true
+      },
+      {
+        "name": "decode_attention_self_63",
+        "max_err": 0.0002334117889404297,
+        "ok": true
+      },
+      {
+        "name": "kv_write_63",
+        "max_err": 0.0,
+        "ok": true
+      },
+      {
+        "name": "decode_attention_self_64",
+        "max_err": 0.0002351999282836914,
+        "ok": true
+      },
+      {
+        "name": "kv_write_64",
+        "max_err": 0.0,
+        "ok": true
+      },
+      {
+        "name": "decode_attention_self_65",
+        "max_err": 0.00023293495178222656,
+        "ok": true
+      },
+      {
+        "name": "kv_write_65",
+        "max_err": 0.0,
+        "ok": true
+      },
+      {
+        "name": "decode_attention_self_200",
+        "max_err": 0.00011909008026123047,
+        "ok": true
+      },
+      {
+        "name": "kv_write_200",
+        "max_err": 0.0,
+        "ok": true
+      },
+      {
+        "name": "decode_attention_self_448",
+        "max_err": 0.00011807680130004883,
+        "ok": true
+      },
+      {
+        "name": "kv_write_448",
+        "max_err": 0.0,
+        "ok": true
+      },
+      {
+        "name": "decode_attention_cross",
+        "max_err": 5.307793617248535e-05,
+        "ok": true
+      },
+      {
+        "name": "lm_head_argmax",
+        "max_err": 0.0,
+        "ok": true
+      }
+    ],
+    "mel_max_abs_diff": 4.887580871582031e-06,
+    "encoder_graph_max_abs_diff": 0.0,
+    "encoder_graph": true
+  },
+  "model_load_s": 3.472504907999962
+}

@@ -1,0 +1,23 @@
+{
+  "status": "profile complete",
+  "timings": {},
+  "model": "openai/whisper-large-v3-turbo",
+  "backend": "vllm",
+  "errors": [],
+  "timing_boundary": "in-memory 16 kHz float32 audio through decoded text",
+  "fairness": "Token suppression and generation parity require verification.",
+  "environment": {
+    "python": "3.12.1",
+    "torch": "2.14.0+cu130",
+    "cuda": "13.0",
+    "transformers": "5.20.2",
+    "vllm": "0.33.0",
+    "nvidia-smi": "Wed Nov 11 14:20:12 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 610.57.04              KMD Version: 610.57.04     CUDA UMD Version: 13.3     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA H100 80GB HBM3          On  |   00000000:BE:00.0 Off |                    0 |\n| N/A   26C    P0             72W /  700W |     124MiB /  81559MiB |      0%      Default |\n|                                         |                        |             Disabled |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|  No running processes found                                                             |\n+-----------------------------------------------------------------------------------------+\n",
+    "nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Wed_Aug_20_01:58:59_PM_PDT_2025\nCuda compilation tools, release 13.0, V13.0.88\nBuild cuda_13.0.r13.0/compiler.36424714_0\n",
+    "gpu": "NVIDIA H100 80GB HBM3"
+  },
+  "dataset_load_s": 0.09603950400000372,
+  "model_revision": "41f01f3fe87f28c78e2fbf8b568835947dd65ed9",
+  "model_download_or_cache_lookup_s": 0.01695967099999507,
+  "model_load_s": 30.725371953999996
+}
